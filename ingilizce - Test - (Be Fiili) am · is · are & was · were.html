@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>İngilizce "Be" Fiili Testi - am/is/are & was/were</title>
+<style>
+body{font-family:Georgia,serif;background:#f7f5f0;color:#222;max-width:900px;margin:0 auto;padding:24px 20px 80px;line-height:1.9}
+h1{font-size:1.6rem;text-align:center;margin-bottom:16px}
+.score-panel{position:sticky;top:0;z-index:60;display:flex;flex-direction:column;gap:8px;margin:0 0 20px}
+.score-toggle,.speech-panel-toggle{align-self:center;font-family:inherit;border-radius:999px;border:2px solid #1a5fb4;background:#1a5fb4;color:#fff;cursor:pointer;font-weight:bold;display:inline-flex;align-items:center;gap:8px}
+.score-toggle{font-size:.95rem;padding:8px 16px}
+.speech-panel-toggle{font-size:1rem;padding:10px 20px}
+.score-toggle:hover,.speech-panel-toggle:hover{background:#1550a0;border-color:#1550a0}
+.score-toggle:focus-visible,.speech-panel-toggle:focus-visible{outline:3px solid #1a5fb4;outline-offset:3px}
+.score-toggle .caret,.speech-panel-toggle .caret{font-size:.85rem;display:inline-block;transition:transform .15s}
+.score-toggle[aria-expanded=true] .caret,.speech-panel-toggle[aria-expanded=true] .caret{transform:rotate(180deg)}
+.score-bar{display:none;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;padding:12px 16px;background:#eef4fc;border:2px solid #1a5fb4;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.08);font-weight:bold;color:#1a5fb4}
+.score-bar.open{display:flex}
+.score-item{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.score-value{font-family:monospace;font-size:1.15rem;color:#0d3d80}
+.score-sep{color:#8bb2e0;font-weight:normal}
+.speech-controls{display:flex;flex-direction:column;gap:10px;margin:0 0 24px;padding:12px;background:rgba(247,245,240,.97);border-bottom:1px solid #e0dcd2}
+.speech-panel{display:none;flex-direction:column;gap:10px}
+.speech-panel.open{display:flex}
+.speech-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}
+.speech-row-label{font-weight:bold;color:#1a5fb4;min-width:130px;text-align:right}
+.speech-btn,.speed-btn,.voice-btn{font-family:inherit;cursor:pointer;font-weight:bold}
+.speech-btn{font-size:.95rem;padding:8px 14px;border-radius:999px;border:2px solid #1a5fb4;background:#eef4fc;color:#1a5fb4}
+.speech-btn:hover{background:#dbe9fb}
+.speech-btn:focus-visible{outline:3px solid #1a5fb4;outline-offset:2px}
+.speech-btn[aria-pressed=true]{background:#1a5fb4;color:#fff}
+.speech-btn[aria-pressed=false]{background:#f2f2f2;color:#666;border-color:#aaa}
+.speed-btn{font-size:.9rem;padding:7px 12px;border-radius:8px;border:2px solid #7a4b00;background:#fff8e1;color:#7a4b00}
+.speed-btn:hover{background:#fff3cd}
+.speed-btn:focus-visible{outline:3px solid #7a4b00;outline-offset:2px}
+.speed-value{font-family:monospace;font-weight:bold;color:#333;min-width:46px;text-align:center}
+.voice-btn{font-size:.9rem;padding:7px 12px;border-radius:8px;border:2px solid #0d3d80;background:#dbe9fb;color:#0d3d80;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.voice-btn:hover{background:#c7ddf7}
+.voice-btn:focus-visible{outline:3px solid #0d3d80;outline-offset:2px}
+.question{background:#fff;border:1px solid #ddd;border-radius:8px;margin:0 0 28px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.question-fieldset{border:none;margin:0;padding:18px 22px 22px}
+.question-legend{width:100%;display:block;padding:0 0 14px;margin:0 0 16px;border-bottom:1px solid #cfdff4}
+.question-legend-inner{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;background:#eef4fc;border:1px solid #cfdff4;border-radius:8px}
+.question-header-label{font-weight:bold;color:#1a5fb4;min-width:130px;text-align:right}
+.question-heading{font-size:1.15rem;font-weight:bold;color:#1a5fb4;margin:0;padding:4px 8px;border-radius:6px;cursor:pointer}
+.question-heading:hover{background:#dbe9fb}
+.question-heading:focus{outline:3px solid #1a5fb4;outline-offset:2px;background:#dbe9fb}
+@media(max-width:560px){.speech-row-label,.question-header-label{min-width:100%;text-align:center}}
+.question-text{font-size:1.05rem;margin-bottom:14px}
+.option-wrap{margin:8px 0}
+.option-btn{display:block;width:100%;text-align:left;padding:10px 14px;background:#fafafa;border:2px solid #ddd;border-radius:6px;font-family:inherit;font-size:1rem;line-height:1.9;color:#222;cursor:pointer}
+.option-btn:hover{background:#eef4fc;border-color:#b6d2f2}
+.option-btn:focus-visible{outline:3px solid #1a5fb4;outline-offset:2px}
+.option-btn.armed{background:#fff3cd;border-color:#e6a817}
+.option-btn.correct{background:#d4edda;border-color:#28a745;animation:pulseGood .7s ease}
+.option-btn.wrong{background:#f8d7da;border-color:#dc3545;animation:shakeBad .45s ease}
+.question.locked .option-btn{cursor:not-allowed;opacity:.85}
+.question.locked .option-btn.correct,.question.locked .option-btn.wrong{opacity:1}
+@keyframes pulseGood{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(40,167,69,.7)}50%{transform:scale(1.03);box-shadow:0 0 0 10px rgba(40,167,69,0)}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(40,167,69,0)}}
+@keyframes shakeBad{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.opt-letter{font-weight:bold;color:#1a5fb4;margin-right:8px}
+.option-text{display:inline}
+.word{cursor:pointer;padding:1px 3px;border-radius:3px;border-bottom:1px dashed #bbb}
+.word:hover{background:#fff3cd}
+.word:focus{outline:2px solid #a15b00;outline-offset:1px;background:#fff3cd}
+.tr-word{cursor:text;padding:0;border:none}
+.word-info-block{margin:6px 0 10px;padding:8px 12px;background:#fff8e1;border:1px solid #f0c36d;border-left:4px solid #e6a817;border-radius:0 6px 6px 0;font-size:.86rem;line-height:1.55;color:#4a3a00}
+.option-wrap .word-info-block{margin-left:8px}
+.word-info-block .word-title{font-weight:bold;color:#1a5fb4}
+.word-info-block .tr{color:#222}
+.word-info-block .grammar{color:#7a4b00;font-style:italic;display:block}
+.word-info-block .phrase{color:#1a5fb4;display:block;margin-top:4px;padding-top:4px;border-top:1px dashed #f0c36d}
+.word-info-block .phrase strong{color:#0d3d80}
+.feedback{margin:4px 0 10px;padding:10px 14px;border-radius:0 6px 6px 0;font-size:.92rem;line-height:1.6;animation:fadeIn .35s ease}
+.feedback.correct{background:#e6f7ea;border-left:5px solid #28a745;color:#155724}
+.feedback.wrong{background:#fdeaea;border-left:5px solid #dc3545;color:#721c24}
+.feedback .fb-title{font-weight:bold;display:block;margin-bottom:4px}
+.feedback .fb-why{display:block;font-size:.88rem}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.summary-btn{display:inline-flex;align-items:center;gap:8px;margin:6px 0 8px;padding:9px 16px;background:#fff8e1;border:2px solid #e6a817;border-radius:999px;font-family:inherit;font-size:.92rem;font-weight:bold;color:#7a4b00;cursor:pointer;transition:background .15s}
+.summary-btn:hover{background:#fff3cd}
+.summary-btn:focus-visible{outline:3px solid #e6a817;outline-offset:2px}
+.summary-btn .caret{font-size:.8rem;display:inline-block;transition:transform .15s}
+.summary-btn[aria-expanded=true] .caret{transform:rotate(180deg)}
+.summary-box{margin:6px 0 12px;padding:12px 16px;background:#f0f7ff;border:1px solid #b6d2f2;border-left:5px solid #1a5fb4;border-radius:0 8px 8px 0;font-size:.93rem;line-height:1.7;color:#0d3d80;animation:fadeIn .35s ease}
+.summary-box .sum-title{font-weight:bold;display:block;margin-bottom:8px;color:#1a5fb4;font-size:1rem}
+.summary-box .sum-formula{font-family:monospace;display:block;background:#fff;padding:8px 12px;border-radius:6px;margin:6px 0 10px;border:1px dashed #8bb2e0;color:#0d3d80;font-size:.95rem;font-weight:bold;white-space:pre-wrap}
+.summary-box .sum-line{display:block;margin:3px 0;padding-left:14px;position:relative;font-size:.9rem;color:#0d3d80}
+.summary-box .sum-line::before{content:"•";position:absolute;left:2px;color:#1a5fb4}
+.summary-box .sum-line strong{color:#0d3d80}
+.summary-box .sum-resolution{display:block;margin-top:10px;padding:8px 12px;background:#fff8e1;border-left:3px solid #e6a817;border-radius:0 6px 6px 0;color:#4a3a00;font-size:.88rem}
+.summary-box .sum-resolution strong{color:#7a4b00}
+</style>
+</head>
+<body>
+<div class="score-panel">
+<button type="button" class="score-toggle" id="btnToggleScorePanel" aria-expanded="false" onclick="toggleScorePanel(this)"><span>Puan Durumu</span><span class="caret" aria-hidden="true">▼</span></button>
+<div class="score-bar" id="scoreBar" role="status" aria-live="polite" aria-atomic="true">
+<span class="score-item"><span aria-hidden="true">🏆</span><span>Puan:</span><span class="score-value" id="scoreValue">0</span><span class="score-sep">/</span><span class="score-value">100</span></span>
+<span class="score-sep" aria-hidden="true">|</span>
+<span class="score-item"><span>Doğru:</span><span class="score-value" id="correctCount">0</span></span>
+<span class="score-sep" aria-hidden="true">|</span>
+<span class="score-item"><span>Yanlış:</span><span class="score-value" id="wrongCount">0</span></span>
+<span class="score-sep" aria-hidden="true">|</span>
+<span class="score-item"><span>Soru başına:</span><span class="score-value" id="pointsPerQuestion">—</span><span>puan</span></span>
+</div>
+</div>
+<div class="speech-controls">
+<button type="button" class="speech-panel-toggle" id="btnToggleSpeechPanel" aria-expanded="false" onclick="toggleSpeechPanel(this)"><span>Seslendirme Ayarları</span><span class="caret" aria-hidden="true">▼</span></button>
+<div class="speech-panel" id="speechPanel">
+<div class="speech-row">
+<span class="speech-row-label" aria-hidden="true">İngilizce</span>
+<button type="button" class="speech-btn" id="btnToggleEnglish" aria-pressed="true" onclick="toggleSpeech('english',this)">Seslendirme: Açık</button>
+<button type="button" class="speed-btn" aria-label="İngilizce sesi yavaşlat" onclick="changeSpeed('english',-1)">Yavaşlat −</button>
+<span class="speed-value" id="engSpeedValue">0.90×</span>
+<button type="button" class="speed-btn" aria-label="İngilizce sesi hızlandır" onclick="changeSpeed('english',1)">Hızlandır +</button>
+<button type="button" class="voice-btn" id="btnEngVoice" aria-label="İngilizce sesi değiştir" onclick="cycleVoice('english')">Ses: —</button>
+</div>
+<div class="speech-row">
+<span class="speech-row-label" aria-hidden="true">Türkçe</span>
+<button type="button" class="speech-btn" id="btnToggleTurkish" aria-pressed="true" onclick="toggleSpeech('turkish',this)">Seslendirme: Açık</button>
+<button type="button" class="speed-btn" aria-label="Türkçe sesi yavaşlat" onclick="changeSpeed('turkish',-1)">Yavaşlat −</button>
+<span class="speed-value" id="trSpeedValue">0.95×</span>
+<button type="button" class="speed-btn" aria-label="Türkçe sesi hızlandır" onclick="changeSpeed('turkish',1)">Hızlandır +</button>
+<button type="button" class="voice-btn" id="btnTrVoice" aria-label="Türkçe sesi değiştir" onclick="cycleVoice('turkish')">Ses: —</button>
+</div>
+</div>
+</div>
+<h1>İngilizce "Be" Fiili Testi: am · is · are & was · were</h1>
+<form onsubmit="return false">
+
+<!-- 1 -->
+<div class="question" data-answer="c" data-qnum="1" data-topic="present_from">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 1</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Where are you from?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="England">England</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Japan">Japan</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Turkey">Turkey</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="be">be</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Italy">Italy</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Canada">Canada</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 2 -->
+<div class="question" data-answer="b" data-qnum="2" data-topic="present_his_name">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 2</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"What's his name?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="Mark">Mark</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="His">His</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="Mark">Mark</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="His">His</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="Mark">Mark</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="His">His</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="Mark">Mark</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="Mark">Mark</span> <span class="word" tabindex="0" data-word="name">name</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 3 -->
+<div class="question" data-answer="d" data-qnum="3" data-topic="present_she_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 3</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"She"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">şimdiki</span> <span class="tr-word">zamanda</span> <span class="tr-word">kurulan</span> <span class="tr-word">olumsuz</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="aren't">aren't</span> <span class="word" tabindex="0" data-word="a">a</span> <span class="word" tabindex="0" data-word="doctor">doctor</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="amn't">amn't</span> <span class="word" tabindex="0" data-word="a">a</span> <span class="word" tabindex="0" data-word="student">student</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="a">a</span> <span class="word" tabindex="0" data-word="teacher">teacher</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="isn't">isn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="home">home</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="no">no</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="ready">ready</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 4 -->
+<div class="question" data-answer="b" data-qnum="4" data-topic="present_they_yesno">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 4</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Are they your friends?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">kısa</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="is">is</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="are">are</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="am">am</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="be">be</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="was">was</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 5 -->
+<div class="question" data-answer="a" data-qnum="5" data-topic="present_i_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 5</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"I"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">şimdiki</span> <span class="tr-word">zamanda</span> <span class="tr-word">kurulan</span> <span class="tr-word">olumsuz</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Canada">Canada</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="aren't">aren't</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Canada">Canada</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="isn't">isn't</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Canada">Canada</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Canada">Canada</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="no">no</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Canada">Canada</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 6 -->
+<div class="question" data-answer="c" data-qnum="6" data-topic="past_born_where">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 6</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">Doğum</span> <span class="tr-word">yeri</span> <span class="tr-word">sormak</span> <span class="tr-word">için</span> <span class="tr-word">kurulan</span> <span class="tr-word">sorulardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Where">Where</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Where">Where</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Where">Where</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Where">Where</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Where">Where</span> <span class="word" tabindex="0" data-word="be">be</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 7 -->
+<div class="question" data-answer="b" data-qnum="7" data-topic="past_they_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 7</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"They"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">geçmiş</span> <span class="tr-word">zamanda</span> <span class="tr-word">kurulan</span> <span class="tr-word">olumsuz</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="wasn't">wasn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="weren't">weren't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="isn't">isn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="aren't">aren't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 8 -->
+<div class="question" data-answer="d" data-qnum="8" data-topic="past_born_when">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 8</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">Doğum</span> <span class="tr-word">tarihi</span> <span class="tr-word">sormak</span> <span class="tr-word">için</span> <span class="tr-word">kurulan</span> <span class="tr-word">sorulardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="When">When</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="When">When</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="When">When</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="When">When</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="When">When</span> <span class="word" tabindex="0" data-word="be">be</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 9 -->
+<div class="question" data-answer="b" data-qnum="9" data-topic="past_was_yesno">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 9</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Was he at home last night?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">kısa</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="he">he</span> <span class="word" tabindex="0" data-word="were">were</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="he">he</span> <span class="word" tabindex="0" data-word="was">was</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="he">he</span> <span class="word" tabindex="0" data-word="is">is</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="he">he</span> <span class="word" tabindex="0" data-word="are">are</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="he">he</span> <span class="word" tabindex="0" data-word="be">be</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 10 -->
+<div class="question" data-answer="b" data-qnum="10" data-topic="past_born_i">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 10</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">Geçmiş</span> <span class="tr-word">zamanda</span> <span class="tr-word">doğum</span> <span class="tr-word">tarihi</span> <span class="tr-word">bildiren</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1998">1998</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1998">1998</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1998">1998</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1998">1998</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1998">1998</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 11 -->
+<div class="question" data-answer="c" data-qnum="11" data-topic="present_is_yesno">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 11</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Is she a teacher?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">kısa</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="she">she</span> <span class="word" tabindex="0" data-word="are">are</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="she">she</span> <span class="word" tabindex="0" data-word="am">am</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="she">she</span> <span class="word" tabindex="0" data-word="is">is</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="she">she</span> <span class="word" tabindex="0" data-word="be">be</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="she">she</span> <span class="word" tabindex="0" data-word="was">was</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 12 -->
+<div class="question" data-answer="a" data-qnum="12" data-topic="present_we_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 12</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"We"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">şimdiki</span> <span class="tr-word">zamanda</span> <span class="tr-word">kurulan</span> <span class="tr-word">olumsuz</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="aren't">aren't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="home">home</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="isn't">isn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="home">home</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="amn't">amn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="home">home</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="home">home</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="no">no</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="home">home</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 13 -->
+<div class="question" data-answer="d" data-qnum="13" data-topic="past_it_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 13</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"It"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">geçmiş</span> <span class="tr-word">zamanda</span> <span class="tr-word">kurulan</span> <span class="tr-word">olumsuz</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="It">It</span> <span class="word" tabindex="0" data-word="weren't">weren't</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="It">It</span> <span class="word" tabindex="0" data-word="aren't">aren't</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="It">It</span> <span class="word" tabindex="0" data-word="isn't">isn't</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="It">It</span> <span class="word" tabindex="0" data-word="wasn't">wasn't</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="It">It</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="cold">cold</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 14 -->
+<div class="question" data-answer="a" data-qnum="14" data-topic="present_they_from">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 14</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Where are they from?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Mexico">Mexico</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Brazil">Brazil</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Germany">Germany</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="be">be</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="China">China</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="France">France</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 15 -->
+<div class="question" data-answer="c" data-qnum="15" data-topic="past_you_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 15</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"You"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">geçmiş</span> <span class="tr-word">zamanda</span> <span class="tr-word">kurulan</span> <span class="tr-word">olumsuz</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="You">You</span> <span class="word" tabindex="0" data-word="wasn't">wasn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="work">work</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="You">You</span> <span class="word" tabindex="0" data-word="isn't">isn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="work">work</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="You">You</span> <span class="word" tabindex="0" data-word="weren't">weren't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="work">work</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="You">You</span> <span class="word" tabindex="0" data-word="aren't">aren't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="work">work</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="You">You</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="work">work</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 16 -->
+<div class="question" data-answer="b" data-qnum="16" data-topic="present_he_from">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 16</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Where is he from?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Turkey">Turkey</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Spain">Spain</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Italy">Italy</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="be">be</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Japan">Japan</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Germany">Germany</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 17 -->
+<div class="question" data-answer="a" data-qnum="17" data-topic="past_were_yesno">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 17</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Were you at school yesterday?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">kısa</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="was">was</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="were">were</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="am">am</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="are">are</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="be">be</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 18 -->
+<div class="question" data-answer="c" data-qnum="18" data-topic="present_he_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 18</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"He"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">şimdiki</span> <span class="tr-word">zamanda</span> <span class="tr-word">kurulan</span> <span class="tr-word">olumsuz</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="aren't">aren't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="home">home</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="amn't">amn't</span> <span class="word" tabindex="0" data-word="ready">ready</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="isn't">isn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="work">work</span> <span class="word" tabindex="0" data-word="today">today</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="ready">ready</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="no">no</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="home">home</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 19 -->
+<div class="question" data-answer="a" data-qnum="19" data-topic="past_was_born_yesno">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 19</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Was she born in 1990?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">kısa</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="she">she</span> <span class="word" tabindex="0" data-word="was">was</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="she">she</span> <span class="word" tabindex="0" data-word="did">did</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="she">she</span> <span class="word" tabindex="0" data-word="is">is</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="she">she</span> <span class="word" tabindex="0" data-word="were">were</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="she">she</span> <span class="word" tabindex="0" data-word="are">are</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 20 -->
+<div class="question" data-answer="b" data-qnum="20" data-topic="present_my_name">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 20</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"What is your name?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="My">My</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="Zeynep">Zeynep</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="My">My</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="Ali">Ali</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="My">My</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="Ayşe">Ayşe</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="My">My</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="be">be</span> <span class="word" tabindex="0" data-word="Mehmet">Mehmet</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="My">My</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="Fatma">Fatma</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 21 -->
+<div class="question" data-answer="d" data-qnum="21" data-topic="present_are_yesno">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 21</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Are you a student?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">kısa</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="are">are</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="is">is</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="be">be</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="am">am</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="was">was</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 22 -->
+<div class="question" data-answer="e" data-qnum="22" data-topic="past_werent_they">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 22</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Were they at the party?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">olumsuz</span> <span class="tr-word">kısa</span> <span class="tr-word">cevap</span> <span class="tr-word">olarak</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="No">No</span>, <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="wasn't">wasn't</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="No">No</span>, <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="isn't">isn't</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="No">No</span>, <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="aren't">aren't</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="No">No</span>, <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="were">were</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="No">No</span>, <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="weren't">weren't</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 23 -->
+<div class="question" data-answer="c" data-qnum="23" data-topic="past_she_born_where">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 23</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Where was she born?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="Paris">Paris</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="London">London</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="Rome">Rome</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="Berlin">Berlin</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="Madrid">Madrid</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 24 -->
+<div class="question" data-answer="a" data-qnum="24" data-topic="present_wh_name">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 24</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"What is her name?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Her">Her</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="Ayşe">Ayşe</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="Zeynep">Zeynep</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Her">Her</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="Fatma">Fatma</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Her">Her</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="Merve">Merve</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Her">Her</span> <span class="word" tabindex="0" data-word="name">name</span> <span class="word" tabindex="0" data-word="be">be</span> <span class="word" tabindex="0" data-word="Elif">Elif</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 25 -->
+<div class="question" data-answer="e" data-qnum="25" data-topic="past_born_we">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 25</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"We"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">geçmiş</span> <span class="tr-word">zamanda</span> <span class="tr-word">doğum</span> <span class="tr-word">tarihi</span> <span class="tr-word">bildiren</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1995">1995</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1995">1995</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1995">1995</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1995">1995</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1995">1995</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 26 -->
+<div class="question" data-answer="c" data-qnum="26" data-topic="present_you_from">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 26</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Where are you from?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="I'm">I'm</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="Turkey">Turkey</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="Turkey">Turkey</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="I'm">I'm</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Turkey">Turkey</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Turkey">Turkey</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="be">be</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Turkey">Turkey</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 27 -->
+<div class="question" data-answer="d" data-qnum="27" data-topic="past_born_question_form">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 27</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">Doğum</span> <span class="tr-word">yeri</span> <span class="tr-word">sormak</span> <span class="tr-word">için</span> <span class="tr-word">doğru</span> <span class="tr-word">soru</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Where">Where</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Where">Where</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Where">Where</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Where">Where</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Where">Where</span> <span class="word" tabindex="0" data-word="be">be</span> <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="born">born</span>?</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 28 -->
+<div class="question" data-answer="b" data-qnum="28" data-topic="present_they_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 28</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"They"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">şimdiki</span> <span class="tr-word">zamanda</span> <span class="tr-word">kurulan</span> <span class="tr-word">olumsuz</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="isn't">isn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="aren't">aren't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="amn't">amn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="no">no</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 29 -->
+<div class="question" data-answer="a" data-qnum="29" data-topic="past_were_you_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 29</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Were you at home yesterday?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">olumsuz</span> <span class="tr-word">kısa</span> <span class="tr-word">cevap</span> <span class="tr-word">olarak</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="No">No</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="wasn't">wasn't</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="No">No</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="weren't">weren't</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="No">No</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="not">not</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="No">No</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="was">was</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="No">No</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="not">not</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 30 -->
+<div class="question" data-answer="c" data-qnum="30" data-topic="present_is_question_form">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 30</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"O bir öğrenci mi?"</span> <span class="tr-word">sorusunun</span> <span class="tr-word">İngilizce</span> <span class="tr-word">doğru</span> <span class="tr-word">hâli</span> <span class="tr-word">hangisidir</span>? <span class="tr-word">(O: erkek)</span></div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Is">Is</span> <span class="word" tabindex="0" data-word="he">he</span> <span class="word" tabindex="0" data-word="a">a</span> <span class="word" tabindex="0" data-word="student">student</span> <span class="word" tabindex="0" data-word="is">is</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="a">a</span> <span class="word" tabindex="0" data-word="student">student</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Is">Is</span> <span class="word" tabindex="0" data-word="he">he</span> <span class="word" tabindex="0" data-word="a">a</span> <span class="word" tabindex="0" data-word="student">student</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="a">a</span> <span class="word" tabindex="0" data-word="student">student</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="He">He</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="a">a</span> <span class="word" tabindex="0" data-word="student">student</span>?</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 31 -->
+<div class="question" data-answer="e" data-qnum="31" data-topic="past_it_question_form">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 31</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">Geçmiş</span> <span class="tr-word">zamanda</span> <span class="tr-word">"It"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">soru</span> <span class="tr-word">cümlesi</span> <span class="tr-word">kuran</span> <span class="tr-word">doğru</span> <span class="tr-word">seçenek</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="It">It</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Was">Was</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="it">it</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Were">Were</span> <span class="word" tabindex="0" data-word="it">it</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Is">Is</span> <span class="word" tabindex="0" data-word="it">it</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Was">Was</span> <span class="word" tabindex="0" data-word="it">it</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>?</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 32 -->
+<div class="question" data-answer="d" data-qnum="32" data-topic="present_i_question">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 32</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Am I late?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">kısa</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="is">is</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="am">am</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="are">are</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="are">are</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="you">you</span> <span class="word" tabindex="0" data-word="be">be</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 33 -->
+<div class="question" data-answer="b" data-qnum="33" data-topic="past_she_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 33</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"She"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">geçmiş</span> <span class="tr-word">zamanda</span> <span class="tr-word">kurulan</span> <span class="tr-word">olumsuz</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="weren't">weren't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="wasn't">wasn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="isn't">isn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="amn't">amn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 34 -->
+<div class="question" data-answer="c" data-qnum="34" data-topic="present_wh_where_he">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 34</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Where is she from?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Turkey">Turkey</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Spain">Spain</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Italy">Italy</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="be">be</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Japan">Japan</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="from">from</span> <span class="word" tabindex="0" data-word="Germany">Germany</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 35 -->
+<div class="question" data-answer="d" data-qnum="35" data-topic="past_they_question">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 35</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Onlar dün okulda mıydı?"</span> <span class="tr-word">sorusunun</span> <span class="tr-word">İngilizce</span> <span class="tr-word">doğru</span> <span class="tr-word">hâli</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="They">They</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Was">Was</span> <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Are">Are</span> <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Were">Were</span> <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>?</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Is">Is</span> <span class="word" tabindex="0" data-word="they">they</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="school">school</span> <span class="word" tabindex="0" data-word="yesterday">yesterday</span>?</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 36 -->
+<div class="question" data-answer="a" data-qnum="36" data-topic="present_we_question">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 36</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Are we ready?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">kısa</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="we">we</span> <span class="word" tabindex="0" data-word="are">are</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="we">we</span> <span class="word" tabindex="0" data-word="is">is</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="we">we</span> <span class="word" tabindex="0" data-word="am">am</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="we">we</span> <span class="word" tabindex="0" data-word="be">be</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="Yes">Yes</span>, <span class="word" tabindex="0" data-word="we">we</span> <span class="word" tabindex="0" data-word="was">was</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 37 -->
+<div class="question" data-answer="e" data-qnum="37" data-topic="past_born_when_she">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 37</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"When was she born?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1990">1990</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="are">are</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1990">1990</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1990">1990</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1990">1990</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="She">She</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="1990">1990</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 38 -->
+<div class="question" data-answer="b" data-qnum="38" data-topic="present_it_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 38</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"It"</span> <span class="tr-word">öznesiyle</span> <span class="tr-word">şimdiki</span> <span class="tr-word">zamanda</span> <span class="tr-word">kurulan</span> <span class="tr-word">olumsuz</span> <span class="tr-word">cümlelerden</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="It">It</span> <span class="word" tabindex="0" data-word="aren't">aren't</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="today">today</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="It">It</span> <span class="word" tabindex="0" data-word="isn't">isn't</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="today">today</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="It">It</span> <span class="word" tabindex="0" data-word="amn't">amn't</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="today">today</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="It">It</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="today">today</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="It">It</span> <span class="word" tabindex="0" data-word="no">no</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="cold">cold</span> <span class="word" tabindex="0" data-word="today">today</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 39 -->
+<div class="question" data-answer="c" data-qnum="39" data-topic="past_was_she_where">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 39</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"Where were you born?"</span> <span class="tr-word">sorusuna</span> <span class="tr-word">verilen</span> <span class="tr-word">cevaplardan</span> <span class="tr-word">doğrusu</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="Ankara">Ankara</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="am">am</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="Ankara">Ankara</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="was">was</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="Ankara">Ankara</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="is">is</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="Ankara">Ankara</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="I">I</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="born">born</span> <span class="word" tabindex="0" data-word="in">in</span> <span class="word" tabindex="0" data-word="Ankara">Ankara</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+<!-- 40 -->
+<div class="question" data-answer="a" data-qnum="40" data-topic="past_they_were_negative">
+<fieldset class="question-fieldset">
+<legend class="question-legend"><span class="question-legend-inner">
+<span class="question-header-label" aria-hidden="true">Soru</span>
+<span class="question-heading" tabindex="0" role="heading" onclick="readHeading(this)" onkeydown="headingKeydown(event,this)">Soru 40</span>
+</span></legend>
+<div class="question-text"><span class="tr-word">"We were at the party last night."</span> <span class="tr-word">cümlesinin</span> <span class="tr-word">olumsuz</span> <span class="tr-word">hâli</span> <span class="tr-word">hangisidir</span>?</div>
+<div class="question-info-slot"></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="a" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">a)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="weren't">weren't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="the">the</span> <span class="word" tabindex="0" data-word="party">party</span> <span class="word" tabindex="0" data-word="last">last</span> <span class="word" tabindex="0" data-word="night">night</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="b" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">b)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="wasn't">wasn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="the">the</span> <span class="word" tabindex="0" data-word="party">party</span> <span class="word" tabindex="0" data-word="last">last</span> <span class="word" tabindex="0" data-word="night">night</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="c" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">c)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="aren't">aren't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="the">the</span> <span class="word" tabindex="0" data-word="party">party</span> <span class="word" tabindex="0" data-word="last">last</span> <span class="word" tabindex="0" data-word="night">night</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="d" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">d)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="isn't">isn't</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="the">the</span> <span class="word" tabindex="0" data-word="party">party</span> <span class="word" tabindex="0" data-word="last">last</span> <span class="word" tabindex="0" data-word="night">night</span>.</span></button><div class="option-info-slot"></div></div>
+<div class="option-wrap"><button type="button" class="option-btn" data-value="e" onclick="optClick(this)" onkeydown="optKeydown(event,this)"><span class="opt-letter">e)</span><span class="option-text"><span class="word" tabindex="0" data-word="We">We</span> <span class="word" tabindex="0" data-word="not">not</span> <span class="word" tabindex="0" data-word="were">were</span> <span class="word" tabindex="0" data-word="at">at</span> <span class="word" tabindex="0" data-word="the">the</span> <span class="word" tabindex="0" data-word="party">party</span>.</span></button><div class="option-info-slot"></div></div>
+</fieldset>
+</div>
+
+</form>
+<script>
+function toggleScorePanel(b){const s=document.getElementById('scoreBar'),o=!s.classList.contains('open');s.classList.toggle('open',o);b.setAttribute('aria-expanded',o)}
+const N=document.querySelectorAll('.question').length,P=N>0?100/N:0,answered={};let total=0,correct=0,wrong=0;
+function updateScore(){document.getElementById('scoreValue').textContent=Math.round(total);document.getElementById('correctCount').textContent=correct;document.getElementById('wrongCount').textContent=wrong;const f=Math.round(P*100)/100;document.getElementById('pointsPerQuestion').textContent=Number.isInteger(f)?f:f.toFixed(2)}
+function addScore(ok,q){if(answered[q])return;answered[q]=1;if(ok){total+=P;correct++}else wrong++;updateScore()}
+updateScore();
+function toggleSpeechPanel(b){const p=document.getElementById('speechPanel'),o=!p.classList.contains('open');p.classList.toggle('open',o);b.setAttribute('aria-expanded',o);if(!o&&'speechSynthesis'in window)speechSynthesis.cancel()}
+const state={english:true,turkish:true},rate={english:.9,turkish:.95},sel={english:null,turkish:null},list={english:[],turkish:[]};
+const STEP=.1,MIN=.5,MAX=2;
+function sortV(a){return a.slice().sort((x,y)=>{const xg=(x.name||'').toLowerCase().includes('google')?0:1,yg=(y.name||'').toLowerCase().includes('google')?0:1;return xg!==yg?xg-yg:(x.name||'').localeCompare(y.name||'')})}
+function loadVoices(){if(!('speechSynthesis'in window))return;const all=speechSynthesis.getVoices();list.english=sortV(all.filter(v=>v.lang&&v.lang.toLowerCase().startsWith('en')));list.turkish=sortV(all.filter(v=>v.lang&&v.lang.toLowerCase().startsWith('tr')));if(!sel.english||!list.english.includes(sel.english))sel.english=list.english[0]||null;if(!sel.turkish||!list.turkish.includes(sel.turkish))sel.turkish=list.turkish[0]||null;updateVoiceBtns()}
+function shortName(v){const n=v.name||'ses';return n.length>22?n.substring(0,20)+'…':n}
+function updateVoiceBtns(){[['english','btnEngVoice'],['turkish','btnTrVoice']].forEach(([k,id])=>{const b=document.getElementById(id);if(!b)return;const v=sel[k],t=list[k].length;b.textContent='Ses: '+(v?shortName(v):'yok');b.setAttribute('aria-label',(k==='english'?'İngilizce':'Türkçe')+' sesi değiştir. '+t+' ses var. Şu anki ses: '+(v?v.name:'yok'))})}
+function cycleVoice(kind){const L=list[kind],isEn=kind==='english';if(!L||L.length===0){if(isEn){if(state.english)speakEnglish('No alternative voices available.');else announce('İngilizce için alternatif ses yok.')}else{if(state.turkish)speakTurkish('Alternatif ses yok.');else announce('Türkçe için alternatif ses yok.')}return}if(L.length===1){if(isEn){if(state.english)speakEnglish('Only one voice available.');else announce('İngilizce için tek ses var.')}else{if(state.turkish)speakTurkish('Tek ses var.');else announce('Türkçe için tek ses var.')}return}let i=L.indexOf(sel[kind]);i=(i+1)%L.length;sel[kind]=L[i];updateVoiceBtns();if(isEn){if(state.english)speakEnglish('This is the new voice.');else announce('İngilizce sesi değiştirildi: '+sel[kind].name)}else{if(state.turkish)speakTurkish('Bu yeni ses.');else announce('Türkçe sesi değiştirildi: '+sel[kind].name)}}
+function toggleSpeech(kind,b){state[kind]=!state[kind];const on=state[kind];b.setAttribute('aria-pressed',on);b.textContent='Seslendirme: '+(on?'Açık':'Kapalı');if(!on&&'speechSynthesis'in window)speechSynthesis.cancel()}
+function changeSpeed(kind,dir){let r=rate[kind]+dir*STEP;r=Math.max(MIN,Math.min(MAX,r));r=Math.round(r*100)/100;rate[kind]=r;document.getElementById(kind==='english'?'engSpeedValue':'trSpeedValue').textContent=r.toFixed(2)+'×';const lim=(dir<0&&r<=MIN)||(dir>0&&r>=MAX);if(kind==='english'){if(!state.english)return;let m;if(lim&&dir<0)m='This is the slowest speed.';else if(lim&&dir>0)m='This is the fastest speed.';else if(dir>0)m='Speeding up.';else m='Slowing down.';speakEnglish(m)}else{if(!state.turkish)return;let m;if(lim&&dir<0)m='En yavaş hız bu.';else if(lim&&dir>0)m='En hızlı hız bu.';else if(dir>0)m='Seni hızlandırıyorum.';else m='Seni yavaşlatıyorum.';speakTurkish(m)}}
+
+const dict={
+"Where":{tr:"nerede, nereye",g:"soru kelimesi. Yer sormak için kullanılır.",p:"Where are you from?",pt:"Nerelisin?"},
+"When":{tr:"ne zaman",g:"soru kelimesi. Zaman sormak için kullanılır.",p:"When were you born?",pt:"Ne zaman doğdun?"},
+"What":{tr:"ne",g:"soru kelimesi. Bilgi sormak için kullanılır.",p:"What is your name?",pt:"Senin adın ne?"},
+"What's":{tr:"ne (kısaltma)",g:"'What is' kısaltması.",p:"What's his name?",pt:"Onun adı ne?"},
+"you":{tr:"sen, siz",g:"ikinci kişi zamiri.",p:"Where are you from?",pt:"Nerelisin?"},
+"your":{tr:"senin, sizin",g:"iyelik sıfatı."},
+"are":{tr:"-sin, -sınız, -ler",g:"'be' fiilinin şimdiki hâli; you/we/they ile kullanılır."},
+"from":{tr:"-den, -dan",g:"edat. Köken belirtir.",p:"be from",pt:"...lı olmak."},
+"is":{tr:"-dir, -dır",g:"'be' fiilinin şimdiki hâli; he/she/it ile kullanılır."},
+"am":{tr:"-im, -ım",g:"'be' fiilinin şimdiki hâli; yalnızca 'I' ile kullanılır."},
+"I":{tr:"ben",g:"birinci kişi zamiri."},
+"I'm":{tr:"ben ...-im",g:"'I am' kısaltması."},
+"she":{tr:"o (kadın)",g:"üçüncü kişi kadın zamiri."},
+"they":{tr:"onlar",g:"üçüncü kişi çoğul zamiri."},
+"he":{tr:"o (erkek)",g:"üçüncü kişi erkek zamiri."},
+"we":{tr:"biz",g:"birinci kişi çoğul zamiri."},
+"it":{tr:"o (cansız)",g:"üçüncü kişi cansız zamiri."},
+"His":{tr:"onun (erkek)",g:"iyelik sıfatı (erkek)."},
+"Her":{tr:"onun (kadın)",g:"iyelik sıfatı (kadın)."},
+"My":{tr:"benim",g:"iyelik sıfatı."},
+"name":{tr:"isim, ad",g:"isim."},
+"Mark":{tr:"Mark (erkek adı)",g:"özel isim."},
+"Ali":{tr:"Ali (erkek adı)",g:"özel isim."},
+"Ayşe":{tr:"Ayşe (kadın adı)",g:"özel isim."},
+"Mehmet":{tr:"Mehmet (erkek adı)",g:"özel isim."},
+"Zeynep":{tr:"Zeynep (kadın adı)",g:"özel isim."},
+"Fatma":{tr:"Fatma (kadın adı)",g:"özel isim."},
+"Merve":{tr:"Merve (kadın adı)",g:"özel isim."},
+"Elif":{tr:"Elif (kadın adı)",g:"özel isim."},
+"aren't":{tr:"değil (you/we/they)",g:"'are not' kısaltması."},
+"isn't":{tr:"değil (he/she/it)",g:"'is not' kısaltması."},
+"wasn't":{tr:"değildi (I/he/she/it)",g:"'was not' kısaltması."},
+"weren't":{tr:"değildi (you/we/they)",g:"'were not' kısaltması."},
+"amn't":{tr:"(hatalı biçim)",g:"YANLIŞ: İngilizcede 'amn't' yoktur."},
+"a":{tr:"bir",g:"belirsiz tanımlık."},
+"teacher":{tr:"öğretmen",g:"isim."},
+"doctor":{tr:"doktor",g:"isim."},
+"student":{tr:"öğrenci",g:"isim."},
+"friends":{tr:"arkadaşlar",g:"isim (çoğul)."},
+"home":{tr:"ev",g:"isim.",p:"at home",pt:"evde."},
+"school":{tr:"okul",g:"isim."},
+"work":{tr:"iş",g:"isim/fiil."},
+"party":{tr:"parti",g:"isim."},
+"late":{tr:"geç",g:"sıfat."},
+"Turkey":{tr:"Türkiye",g:"özel isim."},
+"England":{tr:"İngiltere",g:"özel isim."},
+"Japan":{tr:"Japonya",g:"özel isim."},
+"Italy":{tr:"İtalya",g:"özel isim."},
+"Canada":{tr:"Kanada",g:"özel isim."},
+"Spain":{tr:"İspanya",g:"özel isim."},
+"Mexico":{tr:"Meksika",g:"özel isim."},
+"Brazil":{tr:"Brezilya",g:"özel isim."},
+"Germany":{tr:"Almanya",g:"özel isim."},
+"China":{tr:"Çin",g:"özel isim."},
+"France":{tr:"Fransa",g:"özel isim."},
+"Paris":{tr:"Paris",g:"özel isim."},
+"London":{tr:"Londra",g:"özel isim."},
+"Rome":{tr:"Roma",g:"özel isim."},
+"Berlin":{tr:"Berlin",g:"özel isim."},
+"Madrid":{tr:"Madrid",g:"özel isim."},
+"Ankara":{tr:"Ankara",g:"özel isim."},
+"cold":{tr:"soğuk",g:"sıfat."},
+"today":{tr:"bugün",g:"zarf."},
+"ready":{tr:"hazır",g:"sıfat."},
+"not":{tr:"değil",g:"olumsuzluk zarfı."},
+"Yes":{tr:"evet",g:"olumlu cevap."},
+"No":{tr:"hayır",g:"olumsuz cevap."},
+"did":{tr:"yaptı",g:"YANLIŞ: 'be' ile kullanılmaz."},
+"be":{tr:"olmak",g:"fiil."},
+"was":{tr:"-di (geçmiş)",g:"'be' geçmişi; I/he/she/it ile."},
+"were":{tr:"-di (geçmiş)",g:"'be' geçmişi; you/we/they ile."},
+"born":{tr:"doğmuş",g:"sıfat.",p:"be born",pt:"doğmak."},
+"at":{tr:"-de, -da",g:"edat."},
+"the":{tr:"belirli tanımlık",g:"tanımlık."},
+"yesterday":{tr:"dün",g:"zarf."},
+"last":{tr:"geçen",g:"sıfat.",p:"last night",pt:"dün gece."},
+"night":{tr:"gece",g:"isim."},
+"in":{tr:"içinde, -de",g:"edat.",p:"in 1998",pt:"1998'de."},
+"1998":{tr:"1998",g:"sayı (yıl)."},
+"1990":{tr:"1990",g:"sayı (yıl)."},
+"1995":{tr:"1995",g:"sayı (yıl)."}
+};
+
+/* === YETİŞKİN SEVİYESİNDE, FEYNMAN TEKNİĞİYLE, SATIR SATIR KISA FORMÜL ÖZETLERİ ===
+   Her özet: formül + kısa satırlar (çözümleyici) + o soruya özel çözüm notu.
+   Emoji yok. Kısa, net, anlaşmazlık giderici satırlar. */
+const topics={
+present_from:{
+ title:"Şimdiki Zaman: Nereli Olduğunu Söyleme",
+ formula:"I am from Turkey.\nYou are from Turkey.\nHe/She/It is from Turkey.\nWe/They are from Turkey.",
+ lines:[
+  "Özne 'I' ise fiil yalnızca 'am' olur; 'is' veya 'are' gelmez.",
+  "Özne 'he, she, it' ise fiil 'is' olur.",
+  "Özne 'you, we, they' ise fiil 'are' olur.",
+  "'from' edatı köken belirtir; fiilden sonra gelir.",
+  "Olumsuzda 'am/is/are' + 'not' kullanılır; 'not' tek başına yetmez."
+ ],
+ resolve:"Bu soruda özne 'I' olduğu için yalnızca 'am' doğrudur. 'I is' ve 'I are' yapısal olarak yanlıştır."
+},
+present_his_name:{
+ title:"Şimdiki Zaman: Onun Adı Ne?",
+ formula:"His name is Mark.\nHer name is Ayşe.\nMy name is Ali.",
+ lines:[
+  "İyelik sıfatı özneye göre seçilir: he -> his, she -> her, I -> my.",
+  "'name' tekil bir isimdir; tekil özne 'is' alır.",
+  "'He name' yapısı yanlıştır; iyelik sıfatı 'His' olmalıdır.",
+  "'name' öznesi 'are' veya 'am' almaz."
+ ],
+ resolve:"Bu soruda erkek için iyelik sıfatı 'His' olmalı ve tekil 'name' ile 'is' kullanılmalıdır: 'His name is Mark.'"
+},
+present_she_negative:{
+ title:"Şimdiki Zaman: 'O' (Kadın) Olumsuz",
+ formula:"She is not ...\nShe isn't ...",
+ lines:[
+  "'She' üçüncü tekil kişidir; fiil 'is' olur.",
+  "Olumsuzluk 'is' + 'not' ile kurulur; kısaltması 'isn't'.",
+  "'She' ile 'aren't' kullanılmaz; 'are' çoğul ve 'you' içindir.",
+  "'amn't' İngilizcede yoktur; 'not is' sırası da yanlıştır."
+ ],
+ resolve:"'She' öznesi için doğru olumsuz yapı 'isn't' ile kurulur: 'She isn't at home.'"
+},
+present_they_yesno:{
+ title:"Şimdiki Zaman: 'Onlar' Kısa Cevap",
+ formula:"Are they ...?\nYes, they are.\nNo, they aren't.",
+ lines:[
+  "Soru 'Are they ...?' ise cevap da 'are' ile verilir.",
+  "'They' çoğul olduğu için 'is' veya 'am' almaz.",
+  "Kısa cevapta yalnızca yardımcı fiil tekrarlanır.",
+  "Olumsuz kısa cevap 'No, they aren't.' biçimindedir."
+ ],
+ resolve:"Soru 'are' ile kurulduğu için olumlu kısa cevap 'Yes, they are.' olur."
+},
+present_i_negative:{
+ title:"Şimdiki Zaman: 'Ben' Olumsuz",
+ formula:"I am not ...\nI'm not ...",
+ lines:[
+  "'I' öznesi yalnızca 'am' alır.",
+  "Olumsuzda sıra 'am + not' şeklindedir.",
+  "'not am' sırası yanlıştır.",
+  "'I' ile 'aren't' veya 'isn't' kullanılmaz."
+ ],
+ resolve:"'I' öznesi için tek doğru olumsuz yapı 'am not' biçimidir: 'I am not from Canada.'"
+},
+past_born_where:{
+ title:"Geçmiş Zaman: Nerede Doğdun?",
+ formula:"Where were you born?\nWhere was he/she born?\nWhere were they born?",
+ lines:[
+  "'born' fiili geçmiş bağlamda 'was/were' ile kullanılır; 'am/is/are born' yanlıştır.",
+  "'you, we, they' özneleriyle 'were' kullanılır.",
+  "'I, he, she, it' özneleriyle 'was' kullanılır.",
+  "Soru kelimesi 'Where' başa gelir; ardından yardımcı fiil gelir."
+ ],
+ resolve:"'you' öznesi geçmişte 'were' alır; doğru soru 'Where were you born?' olur."
+},
+past_they_negative:{
+ title:"Geçmiş Zaman: 'Onlar' Olumsuz",
+ formula:"They were not ...\nThey weren't ...",
+ lines:[
+  "'They' geçmişte 'were' alır.",
+  "Olumsuzluk 'were + not' ile kurulur; kısaltması 'weren't'.",
+  "'yesterday' geçmiş zaman belirtecidir; 'isn't/aren't' bu bağlamda yanlıştır.",
+  "'not were' sırası yanlıştır."
+ ],
+ resolve:"'They' + geçmiş + olumsuz için doğru yapı 'weren't' biçimidir: 'They weren't at school yesterday.'"
+},
+past_born_when:{
+ title:"Geçmiş Zaman: Ne Zaman Doğdun?",
+ formula:"When were you born?\nWhen was she born?",
+ lines:[
+  "'When' zaman sorar; başa gelir.",
+  "'you, we, they' geçmişte 'were' alır.",
+  "'I, he, she, it' geçmişte 'was' alır.",
+  "'born' her zaman 'was/were' ile birlikte kullanılır."
+ ],
+ resolve:"'you' öznesiyle geçmişte doğru yardımcı fiil 'were'dür: 'When were you born?'"
+},
+past_was_yesno:{
+ title:"Geçmiş Zaman: 'O' (Erkek) Kısa Cevap",
+ formula:"Was he ...?\nYes, he was.\nNo, he wasn't.",
+ lines:[
+  "'he' geçmişte 'was' alır.",
+  "Kısa cevapta yardımcı fiil tekrarlanır: 'was'.",
+  "Olumsuz kısa cevap 'wasn't' ile verilir.",
+  "'is' veya 'are' geçmiş soruya cevap olamaz."
+ ],
+ resolve:"Soru 'Was he ...?' ise olumlu kısa cevap 'Yes, he was.' olur."
+},
+past_born_i:{
+ title:"Geçmiş Zaman: 'Ben' Doğdum",
+ formula:"I was born in 1998.",
+ lines:[
+  "'I' geçmişte 'was' alır; 'were' almaz.",
+  "'born' geçmiş bağlamda 'was/were' ile kullanılır.",
+  "Yıl belirtirken 'in' edatı kullanılır.",
+  "Kelime sırası: özne + was/were + born + yer/zaman."
+ ],
+ resolve:"'I' + geçmiş için doğru yapı 'I was born ...' biçimindedir."
+},
+present_is_yesno:{
+ title:"Şimdiki Zaman: 'O' (Kadın) Kısa Cevap",
+ formula:"Is she ...?\nYes, she is.\nNo, she isn't.",
+ lines:[
+  "'she' tekil olduğu için 'is' alır.",
+  "Kısa cevapta 'is' tekrarlanır.",
+  "Olumsuz kısa cevap 'isn't' ile verilir.",
+  "'are' veya 'am' bu özneyle kullanılmaz."
+ ],
+ resolve:"Soru 'Is she ...?' ise olumlu kısa cevap 'Yes, she is.' olur."
+},
+present_we_negative:{
+ title:"Şimdiki Zaman: 'Biz' Olumsuz",
+ formula:"We are not ...\nWe aren't ...",
+ lines:[
+  "'we' çoğul olduğu için 'are' alır.",
+  "Olumsuzluk 'are + not' ile kurulur; kısaltması 'aren't'.",
+  "'we' ile 'isn't' veya 'amn't' kullanılmaz.",
+  "'not are' sırası yanlıştır."
+ ],
+ resolve:"'We' için doğru olumsuz yapı 'aren't' biçimidir: 'We aren't at home.'"
+},
+past_it_negative:{
+ title:"Geçmiş Zaman: 'O' (Cansız) Olumsuz",
+ formula:"It was not ...\nIt wasn't ...",
+ lines:[
+  "'it' tekil olduğu için geçmişte 'was' alır.",
+  "Olumsuzluk 'was + not' ile kurulur; kısaltması 'wasn't'.",
+  "'it' ile 'weren't/aren't' kullanılmaz.",
+  "'yesterday' geçmiş zaman belirtecidir."
+ ],
+ resolve:"'It' + geçmiş + olumsuz için doğru yapı 'wasn't' biçimidir: 'It wasn't cold yesterday.'"
+},
+present_they_from:{
+ title:"Şimdiki Zaman: 'Onlar' Nereli?",
+ formula:"They are from Mexico.",
+ lines:[
+  "'they' çoğul olduğu için 'are' alır.",
+  "'is' veya 'am' bu özneyle kullanılmaz.",
+  "'from' köken belirtir; fiilden sonra gelir.",
+  "'be from' kalıbı 'nereli olmak' anlamına gelir."
+ ],
+ resolve:"'They' için doğru yapı 'They are from ...' biçimindedir."
+},
+past_you_negative:{
+ title:"Geçmiş Zaman: 'Sen' Olumsuz",
+ formula:"You were not ...\nYou weren't ...",
+ lines:[
+  "'you' geçmişte 'were' alır.",
+  "Olumsuzluk 'were + not' ile kurulur; kısaltması 'weren't'.",
+  "'you' ile 'wasn't' kullanılmaz.",
+  "'yesterday' geçmiş zaman belirtecidir."
+ ],
+ resolve:"'You' + geçmiş + olumsuz için doğru yapı 'weren't' biçimidir: 'You weren't at work yesterday.'"
+},
+present_he_from:{
+ title:"Şimdiki Zaman: 'O' (Erkek) Nereli?",
+ formula:"He is from Spain.",
+ lines:[
+  "'he' tekil olduğu için 'is' alır.",
+  "'are' veya 'am' bu özneyle kullanılmaz.",
+  "'from' köken belirtir.",
+  "Cevap 'He is from ...' kalıbıyla verilir."
+ ],
+ resolve:"'He' için doğru yapı 'He is from ...' biçimindedir."
+},
+past_were_yesno:{
+ title:"Geçmiş Zaman: 'Sen' Kısa Cevap",
+ formula:"Were you ...?\nYes, I was.\nNo, I wasn't.",
+ lines:[
+  "Soru 'you' ile sorulsa da cevap 'I' ile verilir.",
+  "'I' geçmişte 'was' alır.",
+  "Kısa cevap 'Yes, I was.' veya 'No, I wasn't.' biçimindedir.",
+  "'I were' yapısı yanlıştır."
+ ],
+ resolve:"Soru 'Were you ...?' ise olumlu kısa cevap 'Yes, I was.' olur."
+},
+present_he_negative:{
+ title:"Şimdiki Zaman: 'O' (Erkek) Olumsuz",
+ formula:"He is not ...\nHe isn't ...",
+ lines:[
+  "'he' tekil olduğu için 'is' alır.",
+  "Olumsuzluk 'is + not' ile kurulur; kısaltması 'isn't'.",
+  "'he' ile 'aren't' veya 'amn't' kullanılmaz.",
+  "'not is' sırası yanlıştır."
+ ],
+ resolve:"'He' için doğru olumsuz yapı 'isn't' biçimidir: 'He isn't at work today.'"
+},
+past_was_born_yesno:{
+ title:"Geçmiş Zaman: 'O' (Kadın) Doğdu mu?",
+ formula:"Was she born in 1990?\nYes, she was.\nNo, she wasn't.",
+ lines:[
+  "'be' fiiliyle kurulan soruya 'did' ile cevap verilmez.",
+  "'she' geçmişte 'was' alır.",
+  "Kısa cevap 'was' veya 'wasn't' ile verilir.",
+  "'she were' yapısı yanlıştır."
+ ],
+ resolve:"Soru 'Was she born ...?' ise olumlu kısa cevap 'Yes, she was.' olur."
+},
+present_my_name:{
+ title:"Şimdiki Zaman: Benim Adım",
+ formula:"My name is Ali.",
+ lines:[
+  "'my' iyelik sıfatıdır; 'benim' anlamına gelir.",
+  "'name' tekil olduğu için 'is' alır.",
+  "'name' öznesi 'are' veya 'am' almaz.",
+  "Cevap 'My name is ...' kalıbıyla verilir."
+ ],
+ resolve:"'My name' tekil olduğu için doğru yapı 'My name is ...' biçimindedir."
+},
+present_are_yesno:{
+ title:"Şimdiki Zaman: 'Sen' Kısa Cevap",
+ formula:"Are you ...?\nYes, I am.\nNo, I'm not.",
+ lines:[
+  "Soru 'you' ile sorulsa da cevap 'I' ile verilir.",
+  "'I' şimdiki zamanda 'am' alır.",
+  "Kısa cevap 'Yes, I am.' veya 'No, I'm not.' biçimindedir.",
+  "'I are' veya 'I is' yanlıştır."
+ ],
+ resolve:"Soru 'Are you ...?' ise olumlu kısa cevap 'Yes, I am.' olur."
+},
+past_werent_they:{
+ title:"Geçmiş Zaman: 'Onlar' Olumsuz Kısa Cevap",
+ formula:"Were they ...?\nNo, they weren't.",
+ lines:[
+  "'they' geçmişte 'were' alır.",
+  "Olumsuz kısa cevap 'weren't' ile verilir.",
+  "'wasn't' bu özneyle kullanılmaz.",
+  "'aren't' şimdiki zamandır; geçmiş soruya uymaz."
+ ],
+ resolve:"Soru 'Were they ...?' ise olumsuz kısa cevap 'No, they weren't.' olur."
+},
+past_she_born_where:{
+ title:"Geçmiş Zaman: 'O' (Kadın) Nerede Doğdu?",
+ formula:"She was born in Rome.",
+ lines:[
+  "'she' geçmişte 'was' alır.",
+  "'born' geçmiş bağlamda 'was/were' ile kullanılır.",
+  "'in' yer belirtir.",
+  "'she were born' yapısı yanlıştır."
+ ],
+ resolve:"'She' için doğru yapı 'She was born in ...' biçimindedir."
+},
+present_wh_name:{
+ title:"Şimdiki Zaman: Onun (Kadın) Adı Ne?",
+ formula:"Her name is Ayşe.",
+ lines:[
+  "Kadın için iyelik sıfatı 'her'dir.",
+  "'name' tekil olduğu için 'is' alır.",
+  "'She name' yapısı yanlıştır; 'Her name' olmalıdır.",
+  "'name' öznesi 'are' veya 'am' almaz."
+ ],
+ resolve:"Kadın için doğru yapı 'Her name is ...' biçimindedir."
+},
+past_born_we:{
+ title:"Geçmiş Zaman: 'Biz' Doğduk",
+ formula:"We were born in 1995.",
+ lines:[
+  "'we' çoğul olduğu için geçmişte 'were' alır.",
+  "'born' geçmiş bağlamda 'were' ile kullanılır.",
+  "Yıl belirtirken 'in' edatı kullanılır.",
+  "'we was born' yapısı yanlıştır."
+ ],
+ resolve:"'We' için doğru yapı 'We were born in ...' biçimindedir."
+},
+present_you_from:{
+ title:"Şimdiki Zaman: 'Sen' Nerelisin?",
+ formula:"I am from Turkey.\nI'm from Turkey.",
+ lines:[
+  "'I' şimdiki zamanda 'am' alır.",
+  "'I'm' kısaltması 'I am' anlamına gelir.",
+  "'from' köken belirtir.",
+  "'I'm from is/are' gibi yapılar yanlıştır."
+ ],
+ resolve:"'I' için doğru yapı 'I'm from ...' veya 'I am from ...' biçimindedir."
+},
+past_born_question_form:{
+ title:"Geçmiş Zaman: Doğum Yeri Sorusu",
+ formula:"Where were you born?",
+ lines:[
+  "'Where' yer sorar; başa gelir.",
+  "'you' geçmişte 'were' alır.",
+  "'born' geçmiş bağlamda 'were' ile kullanılır.",
+  "'Where are you born?' şimdiki zamanla doğum belirtmez."
+ ],
+ resolve:"Doğum yeri geçmiş bağlamda sorulur: 'Where were you born?'"
+},
+present_they_negative:{
+ title:"Şimdiki Zaman: 'Onlar' Olumsuz",
+ formula:"They are not ...\nThey aren't ...",
+ lines:[
+  "'they' çoğul olduğu için 'are' alır.",
+  "Olumsuzluk 'are + not' ile kurulur; kısaltması 'aren't'.",
+  "'they' ile 'isn't' veya 'amn't' kullanılmaz.",
+  "'not are' sırası yanlıştır."
+ ],
+ resolve:"'They' için doğru olumsuz yapı 'aren't' biçimidir: 'They aren't at school.'"
+},
+past_were_you_negative:{
+ title:"Geçmiş Zaman: 'Sen' Olumsuz Kısa Cevap",
+ formula:"Were you ...?\nNo, I wasn't.",
+ lines:[
+  "Soru 'you' ile sorulsa da cevap 'I' ile verilir.",
+  "'I' geçmişte 'was' alır; olumsuzu 'wasn't'.",
+  "'I weren't' yapısı yanlıştır.",
+  "'am not' şimdiki zamandır; geçmiş soruya uymaz."
+ ],
+ resolve:"Soru 'Were you ...?' ise olumsuz kısa cevap 'No, I wasn't.' olur."
+},
+present_is_question_form:{
+ title:"Şimdiki Zaman: Soru Nasıl Kurulur?",
+ formula:"Is + he/she/it + ...?",
+ lines:[
+  "Soru cümlesinde yardımcı fiil özneden önce gelir.",
+  "'he/she/it' için yardımcı fiil 'is'tir.",
+  "'He is a student?' düz cümle sırasıdır; soru için 'Is he ...?' olmalıdır.",
+  "Soru işareti tek başına soru kurmaz."
+ ],
+ resolve:"'O bir öğrenci mi?' sorusunun doğru İngilizcesi 'Is he a student?' biçimindedir."
+},
+past_it_question_form:{
+ title:"Geçmiş Zaman: 'O' (Cansız) Sorusu",
+ formula:"Was + it + ...?",
+ lines:[
+  "Soru cümlesinde yardımcı fiil başa gelir.",
+  "'it' geçmişte 'was' alır.",
+  "'It was cold yesterday?' düz cümledir; soru değildir.",
+  "'Were it' yapısı yanlıştır."
+ ],
+ resolve:"'It' + geçmiş + soru için doğru yapı 'Was it ...?' biçimindedir."
+},
+present_i_question:{
+ title:"Şimdiki Zaman: 'Ben' Sorusu",
+ formula:"Am I ...?\nYes, you are.\nNo, you aren't.",
+ lines:[
+  "Soru 'I' ile sorulsa da cevap 'you' ile verilir.",
+  "'you' şimdiki zamanda 'are' alır.",
+  "Kısa cevap 'Yes, you are.' veya 'No, you aren't.' biçimindedir.",
+  "'you is' veya 'you am' yanlıştır."
+ ],
+ resolve:"Soru 'Am I ...?' ise olumlu kısa cevap 'Yes, you are.' olur."
+},
+past_she_negative:{
+ title:"Geçmiş Zaman: 'O' (Kadın) Olumsuz",
+ formula:"She was not ...\nShe wasn't ...",
+ lines:[
+  "'she' geçmişte 'was' alır.",
+  "Olumsuzluk 'was + not' ile kurulur; kısaltması 'wasn't'.",
+  "'she' ile 'weren't' kullanılmaz.",
+  "'isn't' şimdiki zamandır; geçmiş bağlama uymaz."
+ ],
+ resolve:"'She' + geçmiş + olumsuz için doğru yapı 'wasn't' biçimidir: 'She wasn't at school.'"
+},
+present_wh_where_he:{
+ title:"Şimdiki Zaman: 'O' (Kadın) Nereli?",
+ formula:"She is from Italy.",
+ lines:[
+  "'she' tekil olduğu için 'is' alır.",
+  "'are' veya 'am' bu özneyle kullanılmaz.",
+  "'from' köken belirtir.",
+  "Cevap 'She is from ...' kalıbıyla verilir."
+ ],
+ resolve:"'She' için doğru yapı 'She is from ...' biçimindedir."
+},
+past_they_question:{
+ title:"Geçmiş Zaman: 'Onlar' Sorusu",
+ formula:"Were + they + ...?",
+ lines:[
+  "Soru cümlesinde yardımcı fiil başa gelir.",
+  "'they' geçmişte 'were' alır.",
+  "'Was they' yapısı yanlıştır.",
+  "'Are they ... yesterday?' zaman uyumsuzluğu yaratır."
+ ],
+ resolve:"'Onlar dün okulda mıydı?' sorusunun doğru İngilizcesi 'Were they at school yesterday?' biçimindedir."
+},
+present_we_question:{
+ title:"Şimdiki Zaman: 'Biz' Kısa Cevap",
+ formula:"Are we ...?\nYes, we are.\nNo, we aren't.",
+ lines:[
+  "'we' çoğul olduğu için 'are' alır.",
+  "Kısa cevapta 'are' tekrarlanır.",
+  "Olumsuz kısa cevap 'aren't' ile verilir.",
+  "'we is' veya 'we am' yanlıştır."
+ ],
+ resolve:"Soru 'Are we ...?' ise olumlu kısa cevap 'Yes, we are.' olur."
+},
+past_born_when_she:{
+ title:"Geçmiş Zaman: 'O' (Kadın) Ne Zaman Doğdu?",
+ formula:"She was born in 1990.",
+ lines:[
+  "'she' geçmişte 'was' alır.",
+  "'born' geçmiş bağlamda 'was' ile kullanılır.",
+  "Yıl belirtirken 'in' edatı kullanılır.",
+  "Kelime sırası: özne + was + born + zaman."
+ ],
+ resolve:"'She' için doğru yapı 'She was born in ...' biçimindedir."
+},
+present_it_negative:{
+ title:"Şimdiki Zaman: 'O' (Cansız) Olumsuz",
+ formula:"It is not ...\nIt isn't ...",
+ lines:[
+  "'it' tekil olduğu için 'is' alır.",
+  "Olumsuzluk 'is + not' ile kurulur; kısaltması 'isn't'.",
+  "'it' ile 'aren't' veya 'amn't' kullanılmaz.",
+  "'not is' sırası yanlıştır."
+ ],
+ resolve:"'It' için doğru olumsuz yapı 'isn't' biçimidir: 'It isn't cold today.'"
+},
+past_was_she_where:{
+ title:"Geçmiş Zaman: Nerede Doğdun? Cevap",
+ formula:"I was born in Ankara.",
+ lines:[
+  "Soru 'you' ile sorulsa da cevap 'I' ile verilir.",
+  "'I' geçmişte 'was' alır.",
+  "'born' geçmiş bağlamda 'was' ile kullanılır.",
+  "'I were born' yapısı yanlıştır."
+ ],
+ resolve:"'I' için doğru yapı 'I was born in ...' biçimindedir."
+},
+past_they_were_negative:{
+ title:"Geçmiş Zaman: 'Biz' Olumsuz",
+ formula:"We were not ...\nWe weren't ...",
+ lines:[
+  "'we' geçmişte 'were' alır.",
+  "Olumsuzluk 'were + not' ile kurulur; kısaltması 'weren't'.",
+  "'we' ile 'wasn't' kullanılmaz.",
+  "'aren't' şimdiki zamandır; 'last night' geçmiş bağlam ister."
+ ],
+ resolve:"'We' + geçmiş + olumsuz için doğru yapı 'weren't' biçimidir: 'We weren't at the party last night.'"
+}
+};
+
+const expl={
+"1a":"'I' öznesi 'is' almaz; 'am' alır. Doğrusu: 'I am from England.'",
+"1b":"'I' öznesi 'are' almaz; 'am' alır.",
+"1c":"DOĞRU: 'I am from Turkey.' — 'I' ile 'am' doğru.",
+"1d":"'be' yalın hâli cümlede yüklem olmaz; 'am' gerekir.",
+"1e":"'not' tek başına olumsuzluk kurmaz; 'am not' gerekir.",
+"2a":"İyelik sıfatı 'His' olmalı; 'He name' hatalıdır.",
+"2b":"DOĞRU: 'His name is Mark.' — doğru.",
+"2c":"'name' tekil → 'is' gerekir, 'are' değil.",
+"2d":"'name' ile 'am' kullanılmaz.",
+"2e":"Kelime sırası ve fiil çekimi hatalı.",
+"3a":"'She' ile 'aren't' kullanılmaz; 'isn't' gerekir.",
+"3b":"'amn't' İngilizcede yoktur.",
+"3c":"'not' tek başına gelmez; 'isn't' gerekir.",
+"3d":"DOĞRU: 'She isn't at home.' — doğru.",
+"3e":"'no is' hatalıdır; 'isn't' gerekir.",
+"4a":"'they' → 'are' gerekir, 'is' değil.",
+"4b":"DOĞRU: 'Yes, they are.' — doğru.",
+"4c":"'they' ile 'am' kullanılmaz.",
+"4d":"'be' yalın hâli kısa cevapta kullanılmaz.",
+"4e":"Soru şimdiki zamanda; 'was' uygun değil.",
+"5a":"DOĞRU: 'I am not from Canada.' — doğru.",
+"5b":"'I' ile 'aren't' kullanılmaz.",
+"5c":"'I' ile 'isn't' kullanılmaz.",
+"5d":"'not am' sıralaması hatalıdır.",
+"5e":"'no' ile 'be' fiili olumsuz cümle kurmaz.",
+"6a":"'born' geçmiş zaman; 'are' uygun değil.",
+"6b":"'you' ile 'is' kullanılmaz.",
+"6c":"DOĞRU: 'Where were you born?' — doğru.",
+"6d":"'you' ile 'was' kullanılmaz; 'were' gerekir.",
+"6e":"'be' yalın hâli soru cümlesinde kullanılmaz.",
+"7a":"'they' → 'weren't' gerekir, 'wasn't' değil.",
+"7b":"DOĞRU: 'They weren't at school yesterday.' — doğru.",
+"7c":"'isn't' şimdiki zaman; 'yesterday' geçmiş gerektirir.",
+"7d":"'aren't' şimdiki zaman; 'weren't' gerekir.",
+"7e":"'not were' sıralaması hatalıdır.",
+"8a":"'born' geçmiş zaman; 'are' uygun değil.",
+"8b":"'you' ile 'is' kullanılmaz.",
+"8c":"'you' ile 'was' kullanılmaz; 'were' gerekir.",
+"8d":"DOĞRU: 'When were you born?' — doğru.",
+"8e":"'be' yalın hâli soru cümlesinde kullanılmaz.",
+"9a":"'he' → 'was' gerekir, 'were' değil.",
+"9b":"DOĞRU: 'Yes, he was.' — doğru.",
+"9c":"'is' şimdiki zaman; soru geçmişte.",
+"9d":"'he' ile 'are' kullanılmaz.",
+"9e":"'be' yalın hâli kısa cevapta kullanılmaz.",
+"10a":"'I' geçmişte 'was' alır, 'were' değil.",
+"10b":"DOĞRU: 'I was born in 1998.' — doğru.",
+"10c":"'am born' şimdiki zamanla doğum belirtmez.",
+"10d":"Kelime sırası hatalıdır.",
+"10e":"'I' ile 'is' kullanılmaz.",
+"11a":"'she' → 'is' gerekir, 'are' değil.",
+"11b":"'she' ile 'am' kullanılmaz.",
+"11c":"DOĞRU: 'Yes, she is.' — doğru.",
+"11d":"'be' yalın hâli kısa cevapta kullanılmaz.",
+"11e":"Soru şimdiki zamanda; 'was' uygun değil.",
+"12a":"DOĞRU: 'We aren't at home.' — doğru.",
+"12b":"'we' ile 'isn't' kullanılmaz.",
+"12c":"'amn't' İngilizcede yoktur.",
+"12d":"'not are' sıralaması hatalıdır.",
+"12e":"'no are' hatalıdır.",
+"13a":"'it' → 'wasn't' gerekir, 'weren't' değil.",
+"13b":"'it' ile 'aren't' kullanılmaz.",
+"13c":"'isn't' şimdiki zaman; 'yesterday' geçmiş gerektirir.",
+"13d":"DOĞRU: 'It wasn't cold yesterday.' — doğru.",
+"13e":"'not was' sıralaması hatalıdır.",
+"14a":"DOĞRU: 'They are from Mexico.' — doğru.",
+"14b":"'they' → 'are' gerekir, 'is' değil.",
+"14c":"'they' ile 'am' kullanılmaz.",
+"14d":"'be' yalın hâli cümlede yüklem olmaz.",
+"14e":"'not from' olumsuzluk eki eksik; 'aren't from' gerekir.",
+"15a":"'you' ile 'wasn't' kullanılmaz; 'weren't' gerekir.",
+"15b":"'you' ile 'isn't' kullanılmaz.",
+"15c":"DOĞRU: 'You weren't at work yesterday.' — doğru.",
+"15d":"'aren't' şimdiki zaman; 'weren't' gerekir.",
+"15e":"'not were' sıralaması hatalıdır.",
+"16a":"'he' → 'is' gerekir, 'are' değil.",
+"16b":"DOĞRU: 'He is from Spain.' — doğru.",
+"16c":"'he' ile 'am' kullanılmaz.",
+"16d":"'be' yalın hâli cümlede yüklem olmaz.",
+"16e":"'not from' olumsuzluk eki eksik.",
+"17a":"DOĞRU: 'Yes, I was.' — doğru.",
+"17b":"'I' ile 'were' kullanılmaz; 'was' gerekir.",
+"17c":"'am' şimdiki zaman; soru geçmişte.",
+"17d":"'I' ile 'are' kullanılmaz.",
+"17e":"'be' yalın hâli kısa cevapta kullanılmaz.",
+"18a":"'he' → 'isn't' gerekir, 'aren't' değil.",
+"18b":"'amn't' İngilizcede yoktur.",
+"18c":"DOĞRU: 'He isn't at work today.' — doğru.",
+"18d":"'not is' sıralaması hatalıdır.",
+"18e":"'no is' hatalıdır.",
+"19a":"DOĞRU: 'Yes, she was.' — doğru.",
+"19b":"'be' fiiliyle kurulan soruya 'did' ile cevap verilmez.",
+"19c":"'is' şimdiki zaman; soru geçmişte.",
+"19d":"'she' ile 'were' kullanılmaz; 'was' gerekir.",
+"19e":"'she' ile 'are' kullanılmaz.",
+"20a":"'name' tekil → 'is' gerekir, 'are' değil.",
+"20b":"DOĞRU: 'My name is Ali.' — doğru.",
+"20c":"'name' ile 'am' kullanılmaz.",
+"20d":"'be' yalın hâli cümlede yüklem olmaz.",
+"20e":"'not' tek başına olumsuzluk kurmaz.",
+"21a":"Soru 'you' ama cevap 'I'. 'I' → 'am', 'are' değil.",
+"21b":"'I' ile 'is' kullanılmaz.",
+"21c":"'be' yalın hâli kısa cevapta kullanılmaz.",
+"21d":"DOĞRU: 'Yes, I am.' — doğru.",
+"21e":"Soru şimdiki zamanda; 'was' uygun değil.",
+"22a":"'they' → 'weren't' gerekir, 'wasn't' değil.",
+"22b":"'isn't' şimdiki zaman; soru geçmişte.",
+"22c":"'aren't' şimdiki zaman; 'weren't' gerekir.",
+"22d":"'not were' sıralaması hatalıdır.",
+"22e":"DOĞRU: 'No, they weren't.' — doğru.",
+"23a":"'she' → 'was' gerekir, 'were' değil.",
+"23b":"'are' şimdiki zaman; doğum geçmiş bağlamı.",
+"23c":"DOĞRU: 'She was born in Rome.' — doğru.",
+"23d":"'is' şimdiki zaman; doğum geçmiş bağlamı.",
+"23e":"'not born' olumsuzluk eki eksik.",
+"24a":"DOĞRU: 'Her name is Ayşe.' — doğru.",
+"24b":"İyelik sıfatı 'Her' olmalı; 'She name' hatalıdır.",
+"24c":"'name' tekil → 'is' gerekir, 'are' değil.",
+"24d":"'name' ile 'am' kullanılmaz.",
+"24e":"'be' yalın hâli cümlede yüklem olmaz.",
+"25a":"'we' → 'were' gerekir, 'was' değil.",
+"25b":"'are' şimdiki zaman; doğum geçmiş bağlamı.",
+"25c":"'is' şimdiki zaman; doğum geçmiş bağlamı.",
+"25d":"'not born' olumsuzluk eki eksik.",
+"25e":"DOĞRU: 'We were born in 1995.' — doğru.",
+"26a":"Kelime sırası hatalı; 'from is' olmaz.",
+"26b":"'from are' hatalıdır; 'from' tek başına gelir.",
+"26c":"DOĞRU: 'I'm from Turkey.' — doğru.",
+"26d":"'I' ile 'is' kullanılmaz.",
+"26e":"'be' yalın hâli cümlede yüklem olmaz.",
+"27a":"'born' geçmiş zaman; 'are' uygun değil.",
+"27b":"'you' ile 'was' kullanılmaz; 'were' gerekir.",
+"27c":"'you' ile 'is' kullanılmaz.",
+"27d":"DOĞRU: 'Where were you born?' — doğru.",
+"27e":"'be' yalın hâli soru cümlesinde kullanılmaz.",
+"28a":"'they' ile 'isn't' kullanılmaz; 'aren't' gerekir.",
+"28b":"DOĞRU: 'They aren't at school.' — doğru.",
+"28c":"'amn't' İngilizcede yoktur.",
+"28d":"'not are' sıralaması hatalıdır.",
+"28e":"'no are' hatalıdır.",
+"29a":"DOĞRU: 'No, I wasn't.' — doğru.",
+"29b":"'I' ile 'weren't' kullanılmaz; 'wasn't' gerekir.",
+"29c":"'am not' şimdiki zaman; soru geçmişte.",
+"29d":"'not was' sıralaması hatalıdır.",
+"29e":"'I' ile 'is not' kullanılmaz.",
+"30a":"Soru işareti ve kelime sırası hatalı.",
+"30b":"Soru cümlesinde 'is' başa gelmeli.",
+"30c":"DOĞRU: 'Is he a student?' — doğru.",
+"30d":"'he' ile 'are' kullanılmaz.",
+"30e":"'he' ile 'am' kullanılmaz.",
+"31a":"Soru cümlesinde 'was' başa gelmeli.",
+"31b":"Kelime sırası hatalı; 'it' özneden sonra gelir.",
+"31c":"'it' ile 'were' kullanılmaz.",
+"31d":"'is' şimdiki zaman; 'yesterday' geçmiş gerektirir.",
+"31e":"DOĞRU: 'Was it cold yesterday?' — doğru.",
+"32a":"'you' → 'are' gerekir, 'is' değil.",
+"32b":"'you' ile 'am' kullanılmaz.",
+"32c":"Soru 'I' ama cevap 'you'. 'I are' hatalı.",
+"32d":"DOĞRU: 'Yes, you are.' — doğru.",
+"32e":"'be' yalın hâli kısa cevapta kullanılmaz.",
+"33a":"'she' ile 'weren't' kullanılmaz; 'wasn't' gerekir.",
+"33b":"DOĞRU: 'She wasn't at school.' — doğru.",
+"33c":"'isn't' şimdiki zaman; 'yesterday' geçmiş gerektirir.",
+"33d":"'amn't' İngilizcede yoktur.",
+"33e":"'not was' sıralaması hatalıdır.",
+"34a":"'she' ile 'are' kullanılmaz; 'is' gerekir.",
+"34b":"'she' ile 'am' kullanılmaz.",
+"34c":"DOĞRU: 'She is from Italy.' — doğru.",
+"34d":"'be' yalın hâli cümlede yüklem olmaz.",
+"34e":"'not from' olumsuzluk eki eksik.",
+"35a":"Soru cümlesinde 'were' başa gelmeli.",
+"35b":"'they' ile 'was' kullanılmaz.",
+"35c":"'are' şimdiki zaman; 'yesterday' geçmiş gerektirir.",
+"35d":"DOĞRU: 'Were they at school yesterday?' — doğru.",
+"35e":"'they' ile 'is' kullanılmaz.",
+"36a":"DOĞRU: 'Yes, we are.' — doğru.",
+"36b":"'we' ile 'is' kullanılmaz.",
+"36c":"'we' ile 'am' kullanılmaz.",
+"36d":"'be' yalın hâli kısa cevapta kullanılmaz.",
+"36e":"Soru şimdiki zamanda; 'was' uygun değil.",
+"37a":"'she' ile 'were' kullanılmaz; 'was' gerekir.",
+"37b":"'are' şimdiki zaman; doğum geçmiş bağlamı.",
+"37c":"'is' şimdiki zaman; doğum geçmiş bağlamı.",
+"37d":"Kelime sırası hatalı.",
+"37e":"DOĞRU: 'She was born in 1990.' — doğru.",
+"38a":"'it' ile 'aren't' kullanılmaz; 'isn't' gerekir.",
+"38b":"DOĞRU: 'It isn't cold today.' — doğru.",
+"38c":"'amn't' İngilizcede yoktur.",
+"38d":"'not is' sıralaması hatalıdır.",
+"38e":"'no is' hatalıdır.",
+"39a":"'I' ile 'were' kullanılmaz; 'was' gerekir.",
+"39b":"'am born' şimdiki zamanla doğum belirtmez.",
+"39c":"DOĞRU: 'I was born in Ankara.' — doğru.",
+"39d":"'I' ile 'is' kullanılmaz.",
+"39e":"'not born' olumsuzluk eki eksik.",
+"40a":"DOĞRU: 'We weren't at the party last night.' — doğru.",
+"40b":"'we' ile 'wasn't' kullanılmaz; 'weren't' gerekir.",
+"40c":"'aren't' şimdiki zaman; 'last night' geçmiş gerektirir.",
+"40d":"'we' ile 'isn't' kullanılmaz.",
+"40e":"'not were' sıralaması hatalıdır."
+};
+
+let ac=null;
+function ctx(){if(!ac){const A=window.AudioContext||window.webkitAudioContext;if(A)ac=new A()}return ac}
+function correctSnd(){const c=ctx();if(!c)return;const t=c.currentTime;
+const t1=c.createOscillator(),g1=c.createGain();t1.type='sine';t1.frequency.setValueAtTime(2200,t);t1.frequency.exponentialRampToValueAtTime(900,t+.02);g1.gain.setValueAtTime(.0001,t);g1.gain.exponentialRampToValueAtTime(.28,t+.002);g1.gain.exponentialRampToValueAtTime(.0001,t+.05);t1.connect(g1).connect(c.destination);t1.start(t);t1.stop(t+.06);
+const d=c.createOscillator(),g2=c.createGain();d.type='sine';d.frequency.setValueAtTime(420,t+.02);d.frequency.exponentialRampToValueAtTime(1600,t+.07);d.frequency.exponentialRampToValueAtTime(400,t+.32);g2.gain.setValueAtTime(.0001,t+.02);g2.gain.exponentialRampToValueAtTime(.4,t+.05);g2.gain.exponentialRampToValueAtTime(.0001,t+.35);d.connect(g2).connect(c.destination);d.start(t+.02);d.stop(t+.38);
+const r=c.createOscillator(),g3=c.createGain();r.type='sine';r.frequency.setValueAtTime(180,t+.05);r.frequency.exponentialRampToValueAtTime(90,t+.4);g3.gain.setValueAtTime(.0001,t+.05);g3.gain.exponentialRampToValueAtTime(.22,t+.08);g3.gain.exponentialRampToValueAtTime(.0001,t+.45);r.connect(g3).connect(c.destination);r.start(t+.05);r.stop(t+.5);
+const e=c.createOscillator(),g4=c.createGain();e.type='sine';e.frequency.setValueAtTime(700,t+.16);e.frequency.exponentialRampToValueAtTime(300,t+.32);g4.gain.setValueAtTime(.0001,t+.16);g4.gain.exponentialRampToValueAtTime(.1,t+.18);g4.gain.exponentialRampToValueAtTime(.0001,t+.34);e.connect(g4).connect(c.destination);e.start(t+.16);e.stop(t+.36)}
+function wrongSnd(){const c=ctx();if(!c)return;const t=c.currentTime;
+const th=c.createOscillator(),g1=c.createGain();th.type='sine';th.frequency.setValueAtTime(160,t);th.frequency.exponentialRampToValueAtTime(55,t+.18);g1.gain.setValueAtTime(.0001,t);g1.gain.exponentialRampToValueAtTime(.55,t+.005);g1.gain.exponentialRampToValueAtTime(.0001,t+.22);th.connect(g1).connect(c.destination);th.start(t);th.stop(t+.24);
+const cl=c.createOscillator(),g2=c.createGain();cl.type='square';cl.frequency.setValueAtTime(90,t);cl.frequency.exponentialRampToValueAtTime(40,t+.04);g2.gain.setValueAtTime(.0001,t);g2.gain.exponentialRampToValueAtTime(.15,t+.002);g2.gain.exponentialRampToValueAtTime(.0001,t+.05);cl.connect(g2).connect(c.destination);cl.start(t);cl.stop(t+.06)}
+function speak(text,lang,r){if(!('speechSynthesis'in window))return;if(lang==='en-US'&&!state.english)return;if(lang==='tr-TR'&&!state.turkish)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=lang;u.rate=r!=null?r:.95;const v=lang==='en-US'?sel.english:sel.turkish;if(v){u.voice=v;if(v.lang)u.lang=v.lang}speechSynthesis.speak(u)}
+function speakEnglish(t,r){speak(t,'en-US',r!=null?r:rate.english)}
+function speakTurkish(t,r){speak(t,'tr-TR',r!=null?r:rate.turkish)}
+function speakWord(k,i){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();if(state.english){const u=new SpeechSynthesisUtterance(k);u.lang='en-US';u.rate=rate.english;if(sel.english){u.voice=sel.english;if(sel.english.lang)u.lang=sel.english.lang}speechSynthesis.speak(u)}if(state.turkish){let t=i.tr+'.';if(i.g)t+=' Dilbilgisi: '+i.g;if(i.p)t+=' Kalıp: '+i.p+'. '+i.pt;const u=new SpeechSynthesisUtterance(t);u.lang='tr-TR';u.rate=rate.turkish;if(sel.turkish){u.voice=sel.turkish;if(sel.turkish.lang)u.lang=sel.turkish.lang}speechSynthesis.speak(u)}}
+function readHeading(h){const q=h.closest('.question');if(!q)return;const t=q.querySelector('.question-text');speakTurkish(h.textContent.trim()+'. '+(t?t.textContent.trim():''))}
+function headingKeydown(e,h){if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault();readHeading(h)}}
+let lr=null;
+function announce(m){if(!lr){lr=document.createElement('div');lr.setAttribute('aria-live','assertive');lr.setAttribute('aria-atomic','true');lr.style.cssText='position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden';document.body.appendChild(lr)}lr.textContent='';setTimeout(()=>{lr.textContent=m},30)}
+function clearArmed(q,except){if(!q)return;q.querySelectorAll('.option-btn.armed').forEach(b=>{if(b!==except){b.classList.remove('armed');b.removeAttribute('aria-pressed')}})}
+function optKeydown(e,b){if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault();e.stopPropagation();handleOpt(b)}}
+function optClick(b){handleOpt(b)}
+function handleOpt(b){const q=b.closest('.question');if(q&&q.classList.contains('locked'))return;if(b.classList.contains('correct')||b.classList.contains('wrong'))return;
+if(!state.english){b.classList.remove('armed');evaluate(b);return}
+if(b.classList.contains('armed')){b.classList.remove('armed');evaluate(b);return}
+clearArmed(q,b);b.classList.add('armed');b.setAttribute('aria-pressed','true');speakOptEnglish(b)}
+function speakOptEnglish(b){const t=b.querySelector('.option-text'),text=t?t.textContent.trim():'';if(state.english)speakEnglish(text);else announce(text)}
+function evaluate(b){const q=b.closest('.question');const correctAns=q.dataset.answer,val=b.dataset.value,qnum=q.dataset.qnum,qi=parseInt(qnum,10),topic=q.dataset.topic;
+q.querySelectorAll('.option-btn').forEach(x=>{x.classList.remove('armed','correct','wrong');x.removeAttribute('aria-pressed')});q.querySelectorAll('.feedback').forEach(f=>f.parentNode.removeChild(f));q.querySelectorAll('.summary-btn,.summary-box').forEach(f=>f.parentNode.removeChild(f));
+b.setAttribute('aria-pressed','true');const ok=val===correctAns;
+if(ok){b.classList.add('correct');correctSnd()}else{b.classList.add('wrong');wrongSnd()}
+addScore(ok,qnum);
+const fb=document.createElement('div');fb.className='feedback '+(ok?'correct':'wrong');fb.setAttribute('role','status');
+const why=expl[qi+val]||'',wc=why.replace(/^(YANLIŞ|DOĞRU|HATALI)\s*:\s*/i,'');
+fb.innerHTML='<span class="fb-title">'+(ok?'✓ Doğru!':'✗ Yanlış.')+'</span><span class="fb-why">'+wc+'</span>';
+b.closest('.option-wrap').appendChild(fb);
+if(!ok){const c=q.querySelector('.option-btn[data-value="'+correctAns+'"]');if(c)c.classList.add('correct');
+const t=topics[topic];
+if(t){
+const btn=document.createElement('button');btn.type='button';btn.className='summary-btn';btn.setAttribute('aria-expanded','false');
+btn.innerHTML='<span>Özet Formül</span><span class="caret" aria-hidden="true">▼</span>';
+btn.onclick=function(){toggleSummary(this,t)};
+q.querySelector('.question-fieldset').appendChild(btn);
+}
+}
+q.classList.add('locked');q.querySelectorAll('.option-btn').forEach(x=>x.setAttribute('aria-disabled','true'));
+const sp=(ok?'Doğru. ':'Yanlış. ')+wc;if(state.turkish)speakTurkish(sp);announce(sp)}
+function toggleSummary(btn,t){
+const q=btn.closest('.question');
+const existing=q.querySelector('.summary-box');
+if(existing){existing.parentNode.removeChild(existing);btn.setAttribute('aria-expanded','false');return}
+const box=document.createElement('div');box.className='summary-box';box.setAttribute('role','note');
+let h='<span class="sum-title">Konu Özeti: '+t.title+'</span>';
+h+='<span class="sum-formula">'+t.formula+'</span>';
+(t.lines||[]).forEach(function(line){h+='<span class="sum-line">'+line+'</span>'});
+if(t.resolve){h+='<span class="sum-resolution"><strong>Bu soruya özel çözüm:</strong> '+t.resolve+'</span>'}
+box.innerHTML=h;
+btn.parentNode.insertBefore(box,btn.nextSibling);
+btn.setAttribute('aria-expanded','true');
+if(state.turkish){
+let sp='Konu özeti. '+t.title+'. Formül: '+t.formula.replace(/\n/g,' . ')+'. '+(t.lines||[]).join(' . ')+(t.resolve?' Bu soruya özel çözüm: '+t.resolve:'');
+speakTurkish(sp);
+}
+}
+let activeW=null;
+function closeAll(){document.querySelectorAll('.word-info-block').forEach(b=>b.parentNode.removeChild(b));document.querySelectorAll('.word[aria-expanded]').forEach(w=>w.setAttribute('aria-expanded','false'));activeW=null}
+function openBlock(w){const k=w.dataset.word,i=dict[k];if(!i)return;closeAll();
+const b=document.createElement('div');b.className='word-info-block';b.setAttribute('role','note');
+let h='<span class="word-title">'+k+'</span> — <span class="tr">'+i.tr+'</span><span class="grammar">Dilbilgisi: '+i.g+'</span>';
+if(i.p)h+='<span class="phrase"><strong>Kalıp:</strong> '+i.p+'<br><strong>Kalıbın anlamı:</strong> '+i.pt+'</span>';
+b.innerHTML=h;
+const ow=w.closest('.option-wrap');
+if(ow){let s=ow.querySelector('.option-info-slot');if(!s){s=document.createElement('div');s.className='option-info-slot';ow.appendChild(s)}s.appendChild(b)}
+else{const q=w.closest('.question');if(!q)return;let s=q.querySelector('.question-info-slot');if(!s){s=document.createElement('div');s.className='question-info-slot';q.appendChild(s)}s.appendChild(b)}
+w.setAttribute('aria-expanded','true');activeW=w;speakWord(k,i)}
+document.addEventListener('click',e=>{const el=e.target.closest('.word');if(!el)return;e.preventDefault();e.stopPropagation();if(activeW===el){closeAll();return}openBlock(el)},true);
+document.addEventListener('keydown',e=>{const el=e.target.closest&&e.target.closest('.word');if(!el)return;if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault();e.stopPropagation();if(activeW===el)closeAll();else openBlock(el)}if(e.key==='Escape')closeAll()},true);
+document.addEventListener('focusin',e=>{if(activeW&&e.target!==activeW&&!activeW.contains(e.target))closeAll()});
+/* === SESLENDİRMEYİ ANINDA SUSTURMA ===
+   - Escape tuşu (Windows/masaüstü): o anki seslendirme durur.
+   - Ekrana dokunma (telefon/dokunmatik): o anki seslendirme durur.
+   - Fare ile tıklama (pointerdown): o anki seslendirme durur. */
+function stopSpeechNow(){if('speechSynthesis'in window){try{speechSynthesis.cancel()}catch(e){}}}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'||e.key==='Esc'){stopSpeechNow()}},true);
+document.addEventListener('touchstart',function(){stopSpeechNow()},{passive:true,capture:true});
+document.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse'||e.pointerType==='pen'){stopSpeechNow()}},true);
+loadVoices();
+if('speechSynthesis'in window)speechSynthesis.onvoiceschanged=loadVoices;
+</script>
+</body>
+</html>

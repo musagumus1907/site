@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Depo Sayfam</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f6f8fa;
+    color: #24292f;
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  .subtitle { color: #57606a; font-size: 0.9rem; margin-bottom: 24px; }
+  #loading { color: #57606a; font-style: italic; }
+  #error { color: #cf222e; background: #ffebe9; padding: 12px; border-radius: 6px; display: none; }
+  .group {
+    background: #fff;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .group-btn {
+    width: 100%;
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    background: #f6f8fa;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #24292f;
+    transition: background 0.15s;
+  }
+  .group-btn:hover { background: #eaeef2; }
+  .group-btn .arrow {
+    transition: transform 0.2s;
+    font-size: 0.8rem;
+    color: #57606a;
+  }
+  .group-btn.open .arrow { transform: rotate(90deg); }
+  .group-btn .count {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: #57606a;
+    margin-left: 8px;
+  }
+  .group-content {
+    display: none;
+    padding: 6px 8px 10px 8px;
+    border-top: 1px solid #d0d7de;
+  }
+  .group-content.open { display: block; }
+  .file-link {
+    display: block;
+    padding: 9px 14px;
+    margin: 3px 0;
+    color: #0969da;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.92rem;
+    border-left: 3px solid #d0d7de;
+    background: #f6f8fa;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .file-link:hover {
+    background: #ddf4ff;
+    border-left-color: #0969da;
+  }
+  .file-link .fname { font-weight: 500; }
+  .file-link .ext { color: #57606a; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<h1>📁 Depo Sayfam</h1>
+<p class="subtitle">Dosya adları <code>İsim1-İsim2-...html</code> formatına göre gruplanmıştır.</p>
+
+<div id="loading">Dosyalar yükleniyor...</div>
+<div id="error"></div>
+<div id="groups"></div>
+
+<script>
+(async function () {
+  const loadingEl = document.getElementById('loading');
+  const errorEl = document.getElementById('error');
+  const groupsEl = document.getElementById('groups');
+
+  // GitHub API — kullanıcı ve depo adını otomatik bulmaya çalış
+  // (github.io üzerinde çalışırken user.github.io/repo formatını kullanır)
+  function getRepoInfo() {
+    const host = window.location.hostname; // örn: kullanici.github.io
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+
+    if (host.endsWith('.github.io')) {
+      const user = host.replace('.github.io', '');
+      // Eğer path boşsa bu bir user/org pages deposudur (kullanici.github.io)
+      // Değilse ilk path parçası depo adıdır
+      const repo = pathParts.length > 0 ? pathParts[0] : `${user}.github.io`;
+      const basePath = pathParts.length > 0 ? `/${pathParts[0]}/` : '/';
+      return { user, repo, basePath };
+    }
+    return null;
+  }
+
+  const repoInfo = getRepoInfo();
+  let files = [];
+
+  // 1) Önce GitHub API ile dene
+  if (repoInfo) {
+    try {
+      const apiUrl = `https://api.github.com/repos/${repoInfo.user}/${repoInfo.repo}/contents/`;
+      const res = await fetch(apiUrl, { headers: { 'Accept': 'application/vnd.github+json' } });
+      if (res.ok) {
+        const data = await res.json();
+        files = data
+          .filter(item => item.type === 'file' && item.name.toLowerCase().endsWith('.html'))
+          .map(item => item.name);
+      }
+    } catch (e) {
+      console.warn('API denemesi başarısız:', e);
+    }
+  }
+
+  // 2) API çalışmadıysa veya local'de test ediliyorsa: bilinen dosya listesini buraya ekleyebilirsin
+  // (Local'de file:// ile açtığında tarayıcı depoyu okuyamaz)
+  if (files.length === 0) {
+    // Manuel liste — istersen buraya dosya adlarını ekleyebilirsin:
+    // files = ["Matematik-Türev.html", "Matematik-İntegral.html", "Fizik-Kuvvet.html"];
+  }
+
+  loadingEl.style.display = 'none';
+
+  if (files.length === 0) {
+    errorEl.style.display = 'block';
+    errorEl.innerHTML =
+      '⚠️ Dosya listesi alınamadı. Bu sayfa GitHub Pages üzerinde çalışırken otomatik listeler. ' +
+      'Local test için <code>index.html</code> içindeki <code>files</code> dizisine dosya adlarını manuel ekleyebilirsin.';
+    return;
+  }
+
+  // index.html kendisini listelemesin
+  files = files.filter(f => f.toLowerCase() !== 'index.html');
+
+  // Gruplama: ilk "-" öncesi isim
+  const groups = new Map(); // key: grupAdi, value: [dosyaAdlari]
+
+  files.forEach(fname => {
+    const nameNoExt = fname.replace(/\.html?$/i, '');
+    const firstDash = nameNoExt.indexOf('-');
+    const groupName = firstDash > 0 ? nameNoExt.substring(0, firstDash) : nameNoExt;
+
+    if (!groups.has(groupName)) groups.set(groupName, []);
+    groups.get(groupName).push(fname);
+  });
+
+  // Alfabetik sıralama
+  const sortedGroups = [...groups.entries()].sort((a, b) =>
+    a[0].localeCompare(b[0], 'tr')
+  );
+
+  // Render
+  sortedGroups.forEach(([groupName, groupFiles]) => {
+    groupFiles.sort((a, b) => a.localeCompare(b, 'tr'));
+
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'group';
+
+    const btn = document.createElement('button');
+    btn.className = 'group-btn';
+    btn.innerHTML = `
+      <span>
+        <span class="arrow">▶</span>
+        ${escapeHtml(groupName)}
+        <span class="count">(${groupFiles.length})</span>
+      </span>
+    `;
+
+    const content = document.createElement('div');
+    content.className = 'group-content';
+
+    groupFiles.forEach(fname => {
+      const link = document.createElement('a');
+      link.className = 'file-link';
+      link.href = encodeURI(fname);
+      const nameNoExt = fname.replace(/\.html?$/i, '');
+      const parts = nameNoExt.split('-');
+      const rest = parts.length > 1 ? parts.slice(1).join('-') : '';
+      link.innerHTML = rest
+        ? `<span class="fname">${escapeHtml(rest)}</span> <span class="ext">(${escapeHtml(fname)})</span>`
+        : `<span class="fname">${escapeHtml(nameNoExt)}</span> <span class="ext">(${escapeHtml(fname)})</span>`;
+      content.appendChild(link);
+    });
+
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('open');
+      content.classList.toggle('open');
+    });
+
+    groupDiv.appendChild(btn);
+    groupDiv.appendChild(content);
+    groupsEl.appendChild(groupDiv);
+  });
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+})();
+</script>
+
+</body>
+</html>

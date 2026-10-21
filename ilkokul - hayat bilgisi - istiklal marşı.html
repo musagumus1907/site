@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>İstiklal Marşı - Kelime Anlamları</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Comic Sans MS', 'Segoe UI', 'Trebuchet MS', sans-serif;
+    background: linear-gradient(135deg, #fde8e8 0%, #fff4e6 50%, #e8f4fd 100%);
+    color: #2a2a2a;
+    padding: 16px;
+    min-height: 100vh;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 18px;
+    background: linear-gradient(135deg, #c8102e, #e63946);
+    border-radius: 18px;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(200, 16, 46, 0.3);
+  }
+
+  header h1 { font-size: 1.6em; margin-bottom: 6px; }
+  header p { font-size: 0.9em; opacity: 0.95; }
+
+  .kita {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-left: 5px solid #c8102e;
+  }
+
+  .kita-gorsel {
+    text-align: center;
+    font-size: 1.8em;
+    letter-spacing: 6px;
+    padding: 8px;
+    margin-bottom: 6px;
+    background: linear-gradient(135deg, #fff4e6, #fde8e8);
+    border-radius: 12px;
+    animation: gorselSallan 3s ease-in-out infinite;
+  }
+
+  @keyframes gorselSallan {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-3px) scale(1.03); }
+  }
+
+  .kita h2 {
+    color: #c8102e;
+    font-size: 1.15em;
+    margin-bottom: 12px;
+    text-align: center;
+    padding-bottom: 6px;
+    border-bottom: 2px dashed #f0c8c8;
+  }
+
+  .misra {
+    background: #fafafa;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+
+  .misra-metin {
+    font-size: 1em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    line-height: 2;
+  }
+
+  .zor-kelime {
+    display: inline-block;
+    background: linear-gradient(135deg, #ffe0a3, #ffd166);
+    color: #7a4a00;
+    border: 2px dashed #d4a017;
+    border-radius: 10px;
+    padding: 1px 8px;
+    margin: 1px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .zor-kelime:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 10px rgba(212, 160, 23, 0.4);
+  }
+
+  .zor-kelime.acik {
+    background: linear-gradient(135deg, #b8e0b8, #90d490);
+    border-color: #4a9a4a;
+    color: #1a5a1a;
+  }
+
+  .anlam-balonu {
+    display: none;
+    background: #fff9e6;
+    border: 2px solid #ffe0a3;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: #444;
+    position: relative;
+    animation: balonAc 0.4s ease;
+  }
+
+  .anlam-balonu.acik { display: block; }
+
+  .anlam-balonu::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ffe0a3;
+  }
+
+  @keyframes balonAc {
+    0% { opacity: 0; transform: translateY(-10px) scale(0.9); }
+    50% { transform: translateY(2px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .anlam-balonu .kelime-baslik {
+    color: #c8102e;
+    font-weight: bold;
+    font-size: 1em;
+    margin-bottom: 6px;
+  }
+
+  .anlam-balonu .kelime-anlam {
+    color: #444;
+    margin-bottom: 6px;
+  }
+
+  .anlam-balonu .kelime-ornek {
+    color: #8a5a00;
+    background: #fff3d6;
+    padding: 6px 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-style: italic;
+    font-size: 0.95em;
+  }
+
+  .anlam-balonu .misra-anlam {
+    padding-top: 8px;
+    border-top: 1px dashed #e0c080;
+    color: #2a5a2a;
+    background: #f0fff0;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.95em;
+  }
+
+  .anlam-balonu .misra-anlam strong { color: #2a7a2a; }
+
+  .ucan-balon {
+    position: fixed;
+    font-size: 1.8em;
+    pointer-events: none;
+    z-index: 9999;
+    animation: balonUcus 1s ease-out forwards;
+  }
+
+  @keyframes balonUcus {
+    0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+    20% { transform: translateY(-15px) scale(1.2) rotate(-10deg); opacity: 1; }
+    60% { transform: translateY(-45px) scale(1) rotate(10deg); opacity: 1; }
+    100% { transform: translateY(-80px) scale(0.8) rotate(0deg); opacity: 0; }
+  }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.3em; }
+    .misra-metin { font-size: 0.92em; }
+    .kita-gorsel { font-size: 1.4em; letter-spacing: 3px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🇹🇷 İstiklal Marşı'mız 🇹🇷</h1>
+  <p>Sarı kelimelere tıkla, anlamlarını öğren!</p>
+</header>
+
+<div id="kitalar"></div>
+
+<script>
+const kitalar = [
+  {
+    baslik: "1. KITA",
+    gorsel: "🌅🇹🇷🏠⭐",
+    misralar: [
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Korkma", anlam: "Korku duyma, cesaretli ol.", ornek: "Karanlıkta tek başına kalınca \"korkma, ben yanındayım\" deriz ya, işte öyle." },
+          { tip: "metin", icerik: ", " },
+          { tip: "kelime", kelime: "sönmez", anlam: "Bitmez, yok olmaz, hep yanar.", ornek: "Mum üfleyince söner ama güneş hiç sönmez. İşte bayrağımız güneş gibi hiç sönmeyecek." },
+          { tip: "metin", icerik: " bu " },
+          { tip: "kelime", kelime: "şafaklarda", anlam: "Sabah, güneş doğmadan önceki aydınlık zaman.", ornek: "Sabah okula giderken gökyüzü yavaş yavaş aydınlanır ya, işte o an şafaktır." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "yüzen", anlam: "Dalgalanan, havada salınan.", ornek: "Bayrak rüzgarda suda yüzen bir kayık gibi sallanır." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "al", anlam: "Kırmızı.", ornek: "Kırmızı elma, kırmızı kalem... İşte bayrağımızın rengi de kırmızı yani \"al\"." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "sancak", anlam: "Bayrak.", ornek: "Sancak demek bayrak demek. Aynı şeyin başka adı." },
+          { tip: "metin", icerik: ";" }
+        ],
+        misraAnlam: "Sabah olurken dalgalanan kırmızı bayrağımız hiç sönmeyecek, hep orada kalacak. \"Korkma\" diyerek bize cesaret veriyor."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Sönmeden", anlam: "Bitmeden, yok olmadan.", ornek: "Işık sönmeden yani karanlık olmadan eve yetişelim deriz ya." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "yurdumun", anlam: "Ülkemin, vatanımın.", ornek: "Doğduğun, yaşadığın, okula gittiğin yer senin yurdun." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "üstünde", anlam: "Üzerinde.", ornek: "Masanın üstünde kitap var deriz ya, işte onun üzerinde demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "tüten", anlam: "Dumanı çıkan.", ornek: "Sıcak çorbanın üstünden duman çıkar ya, işte o duman çıkmasına \"tütmek\" denir." },
+          { tip: "metin", icerik: " en son " },
+          { tip: "kelime", kelime: "ocak", anlam: "Ev, aile, sıcak yuva.", ornek: "Kışın evimiz sıcak olur ya, işte o sıcak yuvaya \"ocak\" deriz." },
+          { tip: "metin", icerik: "." }
+        ],
+        misraAnlam: "Evimizdeki ocak gibi, yurdumuzda yaşayan son insan kalana kadar bayrağımız hep dalgalanacak. Yani vatanımız hep var olacak."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "O", anlam: "İşaret edilen şey, burada bayrak.", ornek: "Uzaktaki bir şeyi gösterirken \"o\" deriz ya, işte burada bayrağımızı gösteriyor." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "benim", anlam: "Bana ait olan.", ornek: "Bu benim oyuncagım deriz ya, işte bana ait demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "milletimin", anlam: "Aynı topraklarda yaşayan, aynı duyguları paylaşan insanların.", ornek: "Sınıfındaki bütün arkadaşların bir topluluk. İşte kocaman ülkedeki herkes de bir millet." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "yıldızıdır", anlam: "Gökyüzündeki parlak ışık, yol gösteren.", ornek: "Gece gökyüzünde parlayan yıldızlar yol gösterir ya, bayrağımız da bize yol gösterir." },
+          { tip: "metin", icerik: ", " },
+          { tip: "kelime", kelime: "parlayacak", anlam: "Işık saçacak, çok güzel görünecek.", ornek: "Gökyüzünde yıldızlar pırıl pırıl parlar ya, işte bayrağımız da hep öyle parlayacak." },
+          { tip: "metin", icerik: ";" }
+        ],
+        misraAnlam: "O bayrak, milletimizin gökyüzündeki yıldızı gibi. Hep parlayacak, bize yol gösterecek."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "O", anlam: "İşaret edilen şey, burada bayrak.", ornek: "Uzaktaki bir şeyi gösterirken \"o\" deriz ya, işte bayrağımızı gösteriyor." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "benimdir", anlam: "Bana aittir, benim olan.", ornek: "Bu defter benimdir deriz ya, işte bana ait demek." },
+          { tip: "metin", icerik: ", o benim " },
+          { tip: "kelime", kelime: "milletimindir", anlam: "Milletime aittir.", ornek: "Bu okul hepimizindir deriz ya, işte milletimin malı demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "ancak", anlam: "Sadece, yalnızca.", ornek: "Bu oyuncak benim, ancak benim. Başkasının değil. İşte öyle." },
+          { tip: "metin", icerik: "." }
+        ],
+        misraAnlam: "O bayrak benim. Sadece benim ve benim milletimin. Başkasının değil. Bayrağımıza sahip çıkmamız gerektiğini söylüyor."
+      }
+    ]
+  },
+  {
+    baslik: "2. KITA",
+    gorsel: "🌙😊⚔️🕌",
+    misralar: [
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Çatma", anlam: "Yüzünü buruşturma, küsme.", ornek: "Bir arkadaşın sana küsünce yüzünü buruşturur ya, işte ona \"çatma\" denir." },
+          { tip: "metin", icerik: ", " },
+          { tip: "kelime", kelime: "kurban", anlam: "Bir şey uğruna verilen, feda edilen.", ornek: "Senin için canımı veririm demek, işte \"kurban olayım\" öyle bir söz." },
+          { tip: "metin", icerik: " olayım " },
+          { tip: "kelime", kelime: "çehreni", anlam: "Yüzünü.", ornek: "Aynaya bakınca gördüğün şey senin çehren, yani yüzün." },
+          { tip: "metin", icerik: " ey " },
+          { tip: "kelime", kelime: "nazlı", anlam: "İnce, kırılgan, alıngan.", ornek: "Çabuk küsen, hemen ağlayan bebeklere \"nazlı\" deriz ya, işte öyle." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "hilâl", anlam: "Ay'ın yeni doğmuş ince hali.", ornek: "Gökyüzünde incecik bir ay görürsün ya, işte o hilaldir. Bayrağımızdaki ay da hilal." },
+          { tip: "metin", icerik: "!" }
+        ],
+        misraAnlam: "Ey güzel bayrağım, lütfen yüzünü buruşturma, bize küsme. Sen bizim için çok değerlisin."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Kahraman", anlam: "Çok cesur, yiğit.", ornek: "Süper kahramanlar gibi korkusuz, cesur kişilere \"kahraman\" deriz." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "ırkıma", anlam: "Soyuma, milletime.", ornek: "Ailen, deden, ninen... Hepsi senin soyun. İşte milletin tamamı da bir ırk." },
+          { tip: "metin", icerik: " bir gül… ne bu " },
+          { tip: "kelime", kelime: "şiddet", anlam: "Sertlik, kızgınlık, zorbalık.", ornek: "Birisi sana vurunca \"şiddet yapma\" deriz. Kızgınlık ve zorbalık demek." },
+          { tip: "metin", icerik: " bu " },
+          { tip: "kelime", kelime: "celâl", anlam: "Öfke, kızgınlık, heybet.", ornek: "Birisi çok kızınca yüzü kızarır ya, işte o kızgınlık hali \"celal\"dir." },
+          { tip: "metin", icerik: "?" }
+        ],
+        misraAnlam: "Kahraman milletime bir gülümse! Bu kızgınlık, bu öfke niye? Bayrağımızın bize gülümsemesini istiyor."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Sana", anlam: "Senin için, senin üzerine.", ornek: "Sana bir hediye aldım deriz ya, işte senin için demek." },
+          { tip: "metin", icerik: " olmaz dökülen kanlarımız sonra " },
+          { tip: "kelime", kelime: "helâl", anlam: "Dinimizce izin verilmiş, hak edilmiş.", ornek: "Yemek yedikten sonra \"helal olsun\" deriz ya, işte hakkıyla kazanılmış demek." },
+          { tip: "metin", icerik: "," }
+        ],
+        misraAnlam: "Eğer sen gülmezsen, bizim döktüğümüz şehit kanları boşa gider. Kanlarımız ancak sen gülünce değerli olur."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Hakkıdır", anlam: "Hak edilmiştir, layıktır.", ornek: "Kazanınca ödülü hak ettim deriz ya, işte hak edilmiş demek." },
+          { tip: "metin", icerik: ", " },
+          { tip: "kelime", kelime: "Hakk'a", anlam: "Allah'a.", ornek: "Allah'ın bir adı da Hak'tır. \"Hakk'a şükür\" deriz ya, işte Allah'a demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "tapan", anlam: "İbadet eden, inanan.", ornek: "Namaz kılan, dua eden kişiler Allah'a \"tapar\" yani ibadet eder." },
+          { tip: "metin", icerik: ", milletimin " },
+          { tip: "kelime", kelime: "istiklâl", anlam: "Bağımsızlık, özgürlük.", ornek: "Kimse sana ne yapacağını söylemiyorsa, özgürsün. İşte o özgürlük \"istiklal\"dir." },
+          { tip: "metin", icerik: "." }
+        ],
+        misraAnlam: "Allah'a inanan milletimin bağımsız olması en doğal hakkıdır. Özgürlük bizim hakkımızdır."
+      }
+    ]
+  },
+  {
+    baslik: "3. KITA",
+    gorsel: "🦁🌊⛰️💪",
+    misralar: [
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Ben", anlam: "Kendim, ben olan kişi.", ornek: "Ben yaptım deriz ya, işte kendim demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "ezelden", anlam: "Çok eski zamanlardan.", ornek: "Dedelerinin dedelerinin dedeleri... Çok çok eskiden demek \"ezelden\" demek." },
+          { tip: "metin", icerik: " beridir " },
+          { tip: "kelime", kelime: "hür", anlam: "Özgür, serbest.", ornek: "Kafesteki kuş özgür değil. Ama gökyüzünde uçan kuş hür yani özgür." },
+          { tip: "metin", icerik: " yaşadım, hür yaşarım." }
+        ],
+        misraAnlam: "Ben çok eski zamanlardan beri özgür yaşadım, hep özgür yaşayacağım. Özgürlük benim en eski özelliğim."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Hangi", anlam: "Ne, nasıl bir.", ornek: "Hangi kalemi istersin deriz ya, işte ne demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "çılgın", anlam: "Deli, aklını kaçırmış.", ornek: "Saçma sapan şeyler yapan kişilere \"çılgın\" deriz ya, işte öyle." },
+          { tip: "metin", icerik: " bana " },
+          { tip: "kelime", kelime: "zincir", anlam: "Demir halkalardan yapılmış bağ.", ornek: "Köpeğin tasmasındaki demir halkalar zincirdir. Bağlamak için kullanılır." },
+          { tip: "metin", icerik: " vuracakmış? " },
+          { tip: "kelime", kelime: "Şaşarım", anlam: "Hayret ederim, şaşırırım.", ornek: "Sürpriz bir hediye alınca \"şaşırdım!\" dersin ya, işte öyle." },
+          { tip: "metin", icerik: "!" }
+        ],
+        misraAnlam: "Hangi deli bana zincir takıp beni esir edecekmiş? Buna çok şaşırırım! Ben asla esir olmam."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Kükremiş", anlam: "Gürül gürül ses çıkaran.", ornek: "Aslan kükrer ya, işte öyle gürül gürül ses çıkarmak." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "sel", anlam: "Coşkun akan su, su baskını.", ornek: "Çok yağmur yağınca sokaklar su altında kalır ya, işte o coşkun akan su \"sel\"dir." },
+          { tip: "metin", icerik: " gibiyim; " },
+          { tip: "kelime", kelime: "bendimi", anlam: "Barajımı, setimi, engelimi.", ornek: "Suyu tutan duvara \"bent\" denir. İşte önüne çıkan engel demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "çiğner", anlam: "Ezip geçer.", ornek: "Fil ayağının altındaki çimeni ezer ya, işte öyle ezip geçmek." },
+          { tip: "metin", icerik: ", aşarım;" }
+        ],
+        misraAnlam: "Ben gürül gürül akan bir sel gibiyim. Önüme çıkan engelleri ezip geçer, aşarım. Beni hiçbir şey durduramaz."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Yırtarım", anlam: "Parçalarım, yok ederim.", ornek: "Kağıdı ikiye ayırınca yırtmış olursun. İşte öyle parçalamak." },
+          { tip: "metin", icerik: " dağları, " },
+          { tip: "kelime", kelime: "enginlere", anlam: "Uçsuz bucaksız denizlere, çok geniş yerlere.", ornek: "Denize bakınca hiç bitmeyecek gibi görünür ya, işte o uçsuz bucaksız genişlik \"engin\"dir." },
+          { tip: "metin", icerik: " sığmam, " },
+          { tip: "kelime", kelime: "taşarım", anlam: "Sığmam, dışarı çıkarım.", ornek: "Bardağa çok su koyunca taşar ya, işte öyle sığmayıp dışarı çıkmak." },
+          { tip: "metin", icerik: "." }
+        ],
+        misraAnlam: "Dağları yırtarım, kocaman denizlere bile sığmam, taşarım. Gücüm o kadar büyük."
+      }
+    ]
+  },
+  {
+    baslik: "4. KITA",
+    gorsel: "🛡️💖🏔️🐺",
+    misralar: [
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Garb'ın", anlam: "Batının.", ornek: "Haritada sol taraf batıdır. Güneş orada batar. İşte o tarafa \"garp\" denir." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "âfâkını", anlam: "Ufuklarını, gökyüzünün yere değdiği yerleri.", ornek: "Denize bakınca gökle denizin birleştiği çizgi vardır ya, işte o çizgi ufuktur." },
+          { tip: "metin", icerik: " sarmışsa " },
+          { tip: "kelime", kelime: "çelik", anlam: "Çok sert, güçlü demir.", ornek: "Tencere, çatal, kaşık çelikten yapılır. Çok sert ve sağlam demir." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "zırhlı", anlam: "Koruyucu kaplaması olan.", ornek: "Şövalyelerin demir giysisi vardır ya, işte o koruyucu giysiye \"zırh\" denir." },
+          { tip: "metin", icerik: " duvar;" }
+        ],
+        misraAnlam: "Batının bütün ufuklarını demirden duvarlar sarmış olsa bile... Yani düşman çok güçlü olsa bile..."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Benim", anlam: "Bana ait olan.", ornek: "Benim kalemim deriz ya, işte bana ait demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "iman", anlam: "Allah'a inanma, güçlü inanç.", ornek: "Allah'ın seni koruduğuna inanmak, işte o güçlü inanç \"iman\"dır." },
+          { tip: "metin", icerik: " dolu göğsüm gibi " },
+          { tip: "kelime", kelime: "serhaddim", anlam: "Sınırım, ucum, kenarım.", ornek: "İki ülkenin birleştiği çizgiye sınır denir ya, işte o sınır \"serhat\"tır." },
+          { tip: "metin", icerik: " var." }
+        ],
+        misraAnlam: "Benim iman dolu göğsüm gibi bir sınırım var. Yani benim inancım en güçlü savunmamdır."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Ulusun", anlam: "Yüksel, gürle, ses çıkar.", ornek: "Kurt nasıl ulur, sesi göklere yükselir ya, işte öyle gür bir ses çıkarmak." },
+          { tip: "metin", icerik: ", korkma! Nasıl böyle bir " },
+          { tip: "kelime", kelime: "îmânı", anlam: "Güçlü inancı.", ornek: "İman, Allah'a inanmak demek. İmanı da o inancı demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "boğar", anlam: "Yok eder, öldürür.", ornek: "Suyun içinde nefes alamayınca boğuluruz ya, işte öyle yok etmek." },
+          { tip: "metin", icerik: "," }
+        ],
+        misraAnlam: "Yüksel, korkma! Hiçbir güç böyle güçlü bir inancı yok edemez."
+      },
+      {
+        parcalar: [
+          { tip: "metin", icerik: "\"" },
+          { tip: "kelime", kelime: "Medeniyet", anlam: "Uygarlık, gelişmişlik.", ornek: "Yollar, okullar, hastaneler, bilim... Bunların hepsi medeniyettir." },
+          { tip: "metin", icerik: "!\" dediğin tek dişi kalmış " },
+          { tip: "kelime", kelime: "canavar", anlam: "Korkunç yaratık, kötü şey.", ornek: "Masallardaki ejderha, dev gibi korkunç yaratıklara canavar denir." },
+          { tip: "metin", icerik: "?" }
+        ],
+        misraAnlam: "Senin \"medeniyet\" dediğin şey, aslında yaşlanmış, tek dişi kalmış korkunç bir canavar. Yani Batı, medeniyet diyerek bizi kandırıyor."
+      }
+    ]
+  },
+  {
+    baslik: "5. KITA",
+    gorsel: "⚔️🛡️🌅💫",
+    misralar: [
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Arkadaş", anlam: "Dost, yanındaki kişi.", ornek: "Okulda oynadığın, sevdiğin kişilere arkadaş deriz." },
+          { tip: "metin", icerik: "! " },
+          { tip: "kelime", kelime: "Yurduma", anlam: "Ülkeme, vatanıma.", ornek: "Doğduğun, yaşadığın, okula gittiğin yer senin yurdun." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "alçakları", anlam: "Kötü kalpli, şerefsiz kişileri.", ornek: "Yalan söyleyen, insanları üzen kötü kişilere \"alçak\" deriz." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "uğratma", anlam: "Sokma, getirme.", ornek: "Eve hasta birini sokmamak, getirmemek. İşte \"uğratmamak\" öyle." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "sakın", anlam: "Asla, kesinlikle.", ornek: "Annen \"sakın geç kalma\" der ya, işte bu asla demek." },
+          { tip: "metin", icerik: ";" }
+        ],
+        misraAnlam: "Arkadaş! Yurduma kötü kalpli insanları asla sokma. Vatanımızı kötülere teslim etme."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Siper", anlam: "Koruyucu, kalkan.", ornek: "Şemsiye yağmurdan korur ya, işte koruyucu şeye \"siper\" denir." },
+          { tip: "metin", icerik: " et gövdeni, dursun bu " },
+          { tip: "kelime", kelime: "hayâsızca", anlam: "Utanmazca, arsızca.", ornek: "Yapmaması gereken şeyi utanmadan yapan kişiye \"hayasız\" deriz." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "akın", anlam: "Saldırı, hücum.", ornek: "Karıncalar yemeğe hep birlikte saldırır ya, işte toplu saldırı \"akın\"dır." },
+          { tip: "metin", icerik: "." }
+        ],
+        misraAnlam: "Kendini kalkan yap, bedenini siper et. Bu utanmazca saldırıyı durdur."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Doğacaktır", anlam: "Meydana gelecek, ortaya çıkacak.", ornek: "Güneş her sabah doğar ya, işte bir şeyin ortaya çıkması \"doğmak\"tır." },
+          { tip: "metin", icerik: " sana " },
+          { tip: "kelime", kelime: "va'dettiği", anlam: "Söz verdiği.", ornek: "Babam bana bisiklet alacağım diye söz verdi ya, işte o söz vermek \"va'detmek\"." },
+          { tip: "metin", icerik: " günler " },
+          { tip: "kelime", kelime: "Hakk'ın", anlam: "Allah'ın.", ornek: "Allah'ın bir adı da Hak'tır. \"Hakk'ın\" da Allah'ın demek." },
+          { tip: "metin", icerik: "…" }
+        ],
+        misraAnlam: "Allah'ın sana söz verdiği güzel günler mutlaka gelecek. Sabret, umudunu kaybetme."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Kim", anlam: "Hangi kişi.", ornek: "Kim geldi deriz ya, işte hangi kişi demek." },
+          { tip: "metin", icerik: " bilir, " },
+          { tip: "kelime", kelime: "belki", anlam: "Olabilir, ihtimal.", ornek: "Yarın yağmur yağabilir belki. Yani olabilir, ihtimal var demek." },
+          { tip: "metin", icerik: " yarın… belki yarından da " },
+          { tip: "kelime", kelime: "yakın", anlam: "Uzak olmayan, az kalmış.", ornek: "Ev okula yakın deriz ya, işte az kalmış demek." },
+          { tip: "metin", icerik: "." }
+        ],
+        misraAnlam: "Belki yarın, belki de yarından bile yakın bir zamanda o güzel günler gelecek. Çok yakınız."
+      }
+    ]
+  },
+  {
+    baslik: "6. KITA",
+    gorsel: "🌱🪖❤️🏡",
+    misralar: [
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Bastığın", anlam: "Üzerine ayak koyduğun.", ornek: "Yere bastığın zaman ayak izin kalır ya, işte üzerine ayak koymak." },
+          { tip: "metin", icerik: " yerleri \"toprak!\" diyerek geçme, " },
+          { tip: "kelime", kelime: "tanı", anlam: "Öğren, bil, anla.", ornek: "Yeni bir arkadaşı önce tanırsın, sonra seversin ya. İşte öğrenmek, bilmek." },
+          { tip: "metin", icerik: "!" }
+        ],
+        misraAnlam: "Üzerinde yürüdüğün yerlere sadece \"toprak\" deyip geçme. O toprağı tanı, onun ne olduğunu öğren."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Düşün", anlam: "Aklından geçir, hayal et.", ornek: "Bir şeyi kafanda canlandırınca düşünmüş olursun." },
+          { tip: "metin", icerik: " altındaki binlerce " },
+          { tip: "kelime", kelime: "kefensiz", anlam: "Üzerine beyaz örtü örtülmeden gömülen.", ornek: "Ölünce üzerine beyaz bir örtü örtülür, ona kefen denir. Kefensiz ise o örtü olmadan gömülmek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "yatanı", anlam: "Gömülü olanı, toprakta olanı.", ornek: "Toprağın altında uyuyan, gömülü olan kişi demek." },
+          { tip: "metin", icerik: "." }
+        ],
+        misraAnlam: "O toprağın altında kefensiz gömülmüş binlerce şehit olduğunu düşün. Onlar vatan için öldü."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Sen", anlam: "Kendin, sen olan kişi.", ornek: "Sen geldin deriz ya, işte kendin demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "şehîd", anlam: "Vatan için ölen kişi.", ornek: "Vatanı korurken ölen askerlere \"şehit\" deriz. Onlar çok değerlidir." },
+          { tip: "metin", icerik: " oğlusun, " },
+          { tip: "kelime", kelime: "incitme", anlam: "Üzme, zarar verme.", ornek: "Kardeşini üzme, incitme deriz ya, işte canını acıtmamak demek." },
+          { tip: "metin", icerik: ", yazıktır " },
+          { tip: "kelime", kelime: "atanı", anlam: "Babanı, dedeni, atalarını.", ornek: "Dedenin dedesi, onun da dedesi... Hepsi senin ataların." },
+          { tip: "metin", icerik: ";" }
+        ],
+        misraAnlam: "Sen şehit çocuğusun. Atalarını üzme, onlara zarar verme. Bu çok yazık olur."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Verme", anlam: "Elinden çıkarma, bırakma.", ornek: "Oyuncagını verme deriz ya, işte elinden çıkarma demek." },
+          { tip: "metin", icerik: ", " },
+          { tip: "kelime", kelime: "dünyâları", anlam: "Bütün yeryüzünü, her şeyi.", ornek: "Dünya dediğimiz kocaman gezegen. Dünyalar da çok büyük şeyler demek." },
+          { tip: "metin", icerik: " alsan da, bu " },
+          { tip: "kelime", kelime: "cennet", anlam: "Çok güzel yer, her şeyin güzel olduğu yer.", ornek: "Çok güzel, huzurlu bir yer düşün. Her şey mükemmel. İşte cennet öyle." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "vatanı", anlam: "Yurdumuzu, ülkemizi.", ornek: "Doğduğun, yaşadığın, okula gittiğin ülke senin vatanın." },
+          { tip: "metin", icerik: "." }
+        ],
+        misraAnlam: "Sana bütün dünyayı verseler bile bu cennet gibi güzel vatanı verme. Vatan her şeyden değerlidir."
+      }
+    ]
+  },
+  {
+    baslik: "7. KITA",
+    gorsel: "🌸🪖💧🏡",
+    misralar: [
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Kim", anlam: "Hangi kişi.", ornek: "Kim geldi deriz ya, işte hangi kişi demek." },
+          { tip: "metin", icerik: " bu cennet vatanın " },
+          { tip: "kelime", kelime: "uğruna", anlam: "Onun için.", ornek: "Senin için, senin uğruna demek. Yani bir şey için, o şey uğruna." },
+          { tip: "metin", icerik: " olmaz ki " },
+          { tip: "kelime", kelime: "fedâ", anlam: "Vermek, harcamak, kurban etmek.", ornek: "En sevdiğin oyuncağını arkadaşına verdiysen, onu feda ettin demektir." },
+          { tip: "metin", icerik: "?" }
+        ],
+        misraAnlam: "Bu cennet gibi güzel vatan için kim canını vermez ki? Herkes verir."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Şühedâ", anlam: "Şehitler, vatan için ölenler.", ornek: "Şehit kelimesinin çoğulu. Yani birden fazla şehit demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "fışkıracak", anlam: "Dışarı çıkacak, patlayacak.", ornek: "Çeşmeden su fışkırır ya, işte öyle dışarı çıkmak." },
+          { tip: "metin", icerik: ", toprağı sıksan şühedâ!" }
+        ],
+        misraAnlam: "Bu toprağı sıksan içinden şehitler çıkar. Her karış toprakta şehit kanı var."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Cânı", anlam: "Hayatı, ruhu.", ornek: "Canım acıdı deriz ya, işte hayatım, ruhum demek." },
+          { tip: "metin", icerik: ", " },
+          { tip: "kelime", kelime: "cânânı", anlam: "Çok sevilen kişiyi, sevgiliyi.", ornek: "En çok sevdiğin kişi, annen, baban... İşte canan, çok sevilen demek." },
+          { tip: "metin", icerik: ", bütün varımı alsın da " },
+          { tip: "kelime", kelime: "Hudâ", anlam: "Allah.", ornek: "Allah'ın bir başka adı da Huda'dır. Aynı şey." },
+          { tip: "metin", icerik: "," }
+        ],
+        misraAnlam: "Allah canımı, sevdiklerimi, bütün malımı mülkümü alsın da..."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Etmesin", anlam: "Yapmasın.", ornek: "Öyle etmesin deriz ya, işte yapmasın demek." },
+          { tip: "metin", icerik: " tek vatanımdan beni " },
+          { tip: "kelime", kelime: "dünyâda", anlam: "Yeryüzünde, yaşadığımız yerde.", ornek: "Dünyada en güzel yer deriz ya, işte yeryüzünde demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "cüdâ", anlam: "Ayrı, uzak.", ornek: "En sevdiğin arkadaşından ayrı kalınca üzülürsün ya, işte ayrı olmak \"cüda\"." },
+          { tip: "metin", icerik: "." }
+        ],
+        misraAnlam: "Yeter ki beni vatanımdan ayırmasın. Vatanımdan uzak etmesin. Vatan her şeyden önemli."
+      }
+    ]
+  },
+  {
+    baslik: "8. KITA",
+    gorsel: "🕌📢🌙💚",
+    misralar: [
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Ruhumun", anlam: "İç dünyamın, canımın.", ornek: "Ruh, içindeki görünmez şey. Ruhumun da benim iç dünyam demek." },
+          { tip: "metin", icerik: " senden, " },
+          { tip: "kelime", kelime: "İlâhî", anlam: "Ey Allah'ım.", ornek: "Allah'a seslenirken \"ey ilahi\" deriz ya, işte \"Allah'ım\" demek." },
+          { tip: "metin", icerik: ", şudur ancak " },
+          { tip: "kelime", kelime: "emeli", anlam: "İstek, arzu, dilek.", ornek: "Doğum gününde bir şey istersin ya, işte o içten istemek \"emel\"dir." },
+          { tip: "metin", icerik: ":" }
+        ],
+        misraAnlam: "Ey Allah'ım, ruhumun senden tek bir isteği var."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Değmesin", anlam: "Dokunmasın, temas etmesin.", ornek: "Sıcak sobaya değme, elin yanar deriz ya. İşte dokunmasın demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "ma'bedimin", anlam: "Tapınağımın, ibadet yerimin, kutsal yerimin.", ornek: "Cami, mescit gibi ibadet edilen kutsal yerlere \"mabed\" denir." },
+          { tip: "metin", icerik: " göğsüne " },
+          { tip: "kelime", kelime: "nâ-mahrem", anlam: "Yabancı, el değmemesi gereken.", ornek: "Ailenin dışındaki yabancı kişiler, işte onlar \"namahrem\"dir." },
+          { tip: "metin", icerik: " eli!" }
+        ],
+        misraAnlam: "Kutsal yerlerime yabancı eller değmesin. Vatanımın kutsallarına kimse dokunmasın."
+      },
+      {
+        parcalar: [
+          { tip: "metin", icerik: "Bu " },
+          { tip: "kelime", kelime: "ezanlar", anlam: "Namaza çağrı sesleri.", ornek: "Günde beş kere minareden duyduğun \"Allahu Ekber\" sesi ezandır." },
+          { tip: "metin", icerik: "-ki " },
+          { tip: "kelime", kelime: "şehâdetleri", anlam: "Allah'tan başka tanrı olmadığını söyleyen sözleri.", ornek: "\"Allah'tan başka ilah yoktur\" diyen sözlere şahadet denir." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "dînin", anlam: "İnanç sisteminin.", ornek: "İslam dini deriz ya, işte inanç sistemi demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "temeli", anlam: "Aslı, dayanağı, esası.", ornek: "Bir binanın temeli olur ya, işte her şeyin aslı, dayanağı demek." },
+          { tip: "metin", icerik: "-" }
+        ],
+        misraAnlam: "Bu ezanlar, dinin temeli olan sözleri söylüyor."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Ebedî", anlam: "Sonsuz, hiç bitmeyen.", ornek: "Gökyüzü hiç bitmez ya, işte öyle sonsuz, hiç bitmeyecek demek." },
+          { tip: "metin", icerik: " yurdumun üstünde benim " },
+          { tip: "kelime", kelime: "inlemeli", anlam: "Ses çıkarmalı, yankılanmalı.", ornek: "Dağda bağırınca ses geri gelir ya, işte o sesin yankılanması." }
+        ],
+        misraAnlam: "Sonsuz yurdumun üzerinde hep ezan sesleri yankılanmalı. Ezanlar hiç susmamalı."
+      }
+    ]
+  },
+  {
+    baslik: "9. KITA",
+    gorsel: "🙏💧✨🌌",
+    misralar: [
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "O", anlam: "İşaret edilen zaman.", ornek: "O gün deriz ya, işte işaret edilen zaman demek." },
+          { tip: "metin", icerik: " zaman " },
+          { tip: "kelime", kelime: "vecd", anlam: "Coşku, kendinden geçme.", ornek: "Çok mutlu olunca sevinçten zıplarsın ya, işte o taşkın sevinç hali \"vecd\"." },
+          { tip: "metin", icerik: " ile bin " },
+          { tip: "kelime", kelime: "secde", anlam: "Allah'a saygı için yere kapanma.", ornek: "Namaz kılarken alnını yere koyarsın ya, işte o harekete secde denir." },
+          { tip: "metin", icerik: " eder –varsa- taşım;" }
+        ],
+        misraAnlam: "O zaman, eğer mezar taşım varsa, coşkuyla bin kere secde eder."
+      },
+      {
+        parcalar: [
+          { tip: "metin", icerik: "Her " },
+          { tip: "kelime", kelime: "cerîhamdan", anlam: "Yaramdan.", ornek: "Düşünce dizin kanar ya, işte o açılan yere yara, yaram demek." },
+          { tip: "metin", icerik: ", " },
+          { tip: "kelime", kelime: "İlâhî", anlam: "Ey Allah'ım.", ornek: "Allah'a seslenirken \"ey ilahi\" deriz ya, işte \"Allah'ım\" demek." },
+          { tip: "metin", icerik: ", " },
+          { tip: "kelime", kelime: "boşanıp", anlam: "Ayrılıp, akıp.", ornek: "Baraj kapakları açılınca su boşanır ya, işte öyle akıp gitmek." },
+          { tip: "metin", icerik: " kanlı yaşım," }
+        ],
+        misraAnlam: "Her yaramdan kanlı gözyaşlarım akar."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Fışkırır", anlam: "Dışarı çıkar, patlar.", ornek: "Balon patlayınca hava fışkırır ya, işte öyle hızla dışarı çıkmak." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "rûh-i mücerred", anlam: "Bedensiz ruh, saf ruh.", ornek: "Ruh, bedenin içindeki görünmez şey. Mücerred ise tek, saf, sade demek." },
+          { tip: "metin", icerik: " gibi yerden " },
+          { tip: "kelime", kelime: "na'şım", anlam: "Cenazem, ölü bedenim.", ornek: "Ölünce bedenine cenaze denir. İşte ölü bedenim demek." },
+          { tip: "metin", icerik: ";" }
+        ],
+        misraAnlam: "Ölü bedenim topraktan saf bir ruh gibi fışkırır."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "O", anlam: "İşaret edilen zaman.", ornek: "O zaman deriz ya, işte işaret edilen zaman demek." },
+          { tip: "metin", icerik: " zaman yükselerek " },
+          { tip: "kelime", kelime: "Arş'a", anlam: "Allah'ın en yüksek katına, göğün en üstüne.", ornek: "Gökyüzünün en en en üstü düşün. İşte orası arş." },
+          { tip: "metin", icerik: " değer, belki başım." }
+        ],
+        misraAnlam: "O zaman başım yükselerek göğün en üstüne değer. Yani çok yükselirim."
+      }
+    ]
+  },
+  {
+    baslik: "10. KITA",
+    gorsel: "🇹🇷🌅🎉🕊️",
+    misralar: [
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Dalgalan", anlam: "Havada sallan, salın.", ornek: "Bayrak rüzgarda sallanır ya, işte o sallanma hareketi \"dalgalanmak\"." },
+          { tip: "metin", icerik: " sen de şafaklar gibi ey " },
+          { tip: "kelime", kelime: "şanlı", anlam: "Ünlü, onurlu, büyük.", ornek: "Çok başarılı, herkesin saygı duyduğu kişiye \"şanlı\" deriz." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "hilâl", anlam: "Ay'ın ince hali, bayrağımızdaki ay.", ornek: "Bayrağımızdaki beyaz ay, incecik olduğu için hilaldir." },
+          { tip: "metin", icerik: ";" }
+        ],
+        misraAnlam: "Ey şanlı bayrağım, sen de sabah gibi dalgalan!"
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Olsun", anlam: "Kabul edilsin, öyle olsun.", ornek: "Öyle olsun deriz ya, işte kabul edilsin demek." },
+          { tip: "metin", icerik: " artık dökülen kanlarımın hepsi " },
+          { tip: "kelime", kelime: "helâl", anlam: "Dinimizce uygun, hak edilmiş.", ornek: "Yemek yiyen kişiye \"helal olsun\" deriz ya, işte hakkıyla kazanılmış demek." },
+          { tip: "metin", icerik: "." }
+        ],
+        misraAnlam: "Artık dökülen bütün kanlarımız helal olsun. Şehitlerimizin kanı boşa gitmedi."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Ebediyen", anlam: "Sonsuza kadar.", ornek: "Hiç bitmeyecek, hep devam edecek demek. Gökyüzü gibi." },
+          { tip: "metin", icerik: " sana yok, ırkıma yok " },
+          { tip: "kelime", kelime: "izmihlâl", anlam: "Yok olma, çökme, dağılma.", ornek: "Kumdan yaptığın kale dalga gelince dağılır ya, işte öyle yok olmak." },
+          { tip: "metin", icerik: ":" }
+        ],
+        misraAnlam: "Sonsuza kadar sana da, milletime de yok olmak yok. Hep var olacağız."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Hakkıdır", anlam: "Hak edilmiştir, layıktır.", ornek: "Kazanınca ödülü hak ettim deriz ya, işte hak edilmiş demek." },
+          { tip: "metin", icerik: ", " },
+          { tip: "kelime", kelime: "hür", anlam: "Özgür.", ornek: "İstediğin gibi koşabilen, oynayabilen çocuk özgürdür, yani hür." },
+          { tip: "metin", icerik: " yaşamış bayrağımın " },
+          { tip: "kelime", kelime: "hürriyet", anlam: "Özgürlük.", ornek: "Hür olma hali, özgür olmak. Aynı şeyin ismi." },
+          { tip: "metin", icerik: ";" }
+        ],
+        misraAnlam: "Özgür yaşamış bayrağımın özgür olması en doğal hakkıdır."
+      },
+      {
+        parcalar: [
+          { tip: "kelime", kelime: "Hakkıdır", anlam: "Hak edilmiştir, layıktır.", ornek: "Kazanınca ödülü hak ettim deriz ya, işte hak edilmiş demek." },
+          { tip: "metin", icerik: ", " },
+          { tip: "kelime", kelime: "Hakk'a", anlam: "Allah'a.", ornek: "Allah'ın bir adı da Hak'tır. \"Hakk'a şükür\" deriz ya, işte Allah'a demek." },
+          { tip: "metin", icerik: " " },
+          { tip: "kelime", kelime: "tapan", anlam: "İbadet eden, inanan.", ornek: "Namaz kılan, dua eden kişiler Allah'a tapar yani ibadet eder." },
+          { tip: "metin", icerik: " milletimin " },
+          { tip: "kelime", kelime: "istiklâl", anlam: "Bağımsızlık, özgürlük.", ornek: "Kimsenin sana karışmadığı, özgür olduğun hale istiklal denir." },
+          { tip: "metin", icerik: "!" }
+        ],
+        misraAnlam: "Allah'a inanan milletimin bağımsız olması en doğal hakkıdır. Özgürlük sonsuza kadar bizim hakkımızdır."
+      }
+    ]
+  }
+];
+
+const kitalarDiv = document.getElementById('kitalar');
+
+kitalar.forEach((kita, kitaIndex) => {
+  const kitaDiv = document.createElement('div');
+  kitaDiv.className = 'kita';
+
+  const gorselDiv = document.createElement('div');
+  gorselDiv.className = 'kita-gorsel';
+  gorselDiv.textContent = kita.gorsel;
+  kitaDiv.appendChild(gorselDiv);
+
+  const baslik = document.createElement('h2');
+  baslik.textContent = kita.baslik;
+  kitaDiv.appendChild(baslik);
+
+  kita.misralar.forEach((misra, misraIndex) => {
+    const misraDiv = document.createElement('div');
+    misraDiv.className = 'misra';
+
+    const metinDiv = document.createElement('div');
+    metinDiv.className = 'misra-metin';
+
+    misra.parcalar.forEach((parca) => {
+      if (parca.tip === 'metin') {
+        const span = document.createElement('span');
+        span.textContent = parca.icerik;
+        metinDiv.appendChild(span);
+      } else if (parca.tip === 'kelime') {
+        const kelimeSpan = document.createElement('span');
+        kelimeSpan.className = 'zor-kelime';
+        kelimeSpan.textContent = parca.kelime;
+        kelimeSpan.setAttribute('data-anlam', parca.anlam);
+        kelimeSpan.setAttribute('data-ornek', parca.ornek);
+        kelimeSpan.setAttribute('data-misra-anlam', misra.misraAnlam);
+        kelimeSpan.setAttribute('data-kelime', parca.kelime);
+        kelimeSpan.setAttribute('data-kita', kitaIndex);
+        kelimeSpan.setAttribute('data-misra', misraIndex);
+        metinDiv.appendChild(kelimeSpan);
+      }
+    });
+
+    misraDiv.appendChild(metinDiv);
+
+    const balonDiv = document.createElement('div');
+    balonDiv.className = 'anlam-balonu';
+    balonDiv.id = `balon-${kitaIndex}-${misraIndex}`;
+    misraDiv.appendChild(balonDiv);
+
+    kitaDiv.appendChild(misraDiv);
+  });
+
+  kitalarDiv.appendChild(kitaDiv);
+});
+
+let audioCtx = null;
+
+function balonSesi() {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1100, audioCtx.currentTime + 0.08);
+    osc.frequency.exponentialRampToValueAtTime(700, audioCtx.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime + 0.25);
+  } catch (e) {}
+}
+
+function balonAnimasyonu(element) {
+  const balonlar = ['🎈', '🎈', '🫧', '💫', '🎈'];
+  const balon = document.createElement('div');
+  balon.className = 'ucan-balon';
+  balon.textContent = balonlar[Math.floor(Math.random() * balonlar.length)];
+  const rect = element.getBoundingClientRect();
+  balon.style.left = (rect.left + rect.width / 2 - 15) + 'px';
+  balon.style.top = (rect.top - 10) + 'px';
+  document.body.appendChild(balon);
+  setTimeout(() => balon.remove(), 1000);
+}
+
+document.addEventListener('click', (e) => {
+  const hedef = e.target.closest('.zor-kelime');
+  if (!hedef) return;
+
+  const kitaIndex = hedef.getAttribute('data-kita');
+  const misraIndex = hedef.getAttribute('data-misra');
+  const balonId = `balon-${kitaIndex}-${misraIndex}`;
+  const balonDiv = document.getElementById(balonId);
+  if (!balonDiv) return;
+
+  const kelime = hedef.getAttribute('data-kelime');
+  const anlam = hedef.getAttribute('data-anlam');
+  const ornek = hedef.getAttribute('data-ornek');
+  const misraAnlam = hedef.getAttribute('data-misra-anlam');
+
+  if (hedef.classList.contains('acik')) {
+    hedef.classList.remove('acik');
+    balonDiv.classList.remove('acik');
+    balonDiv.innerHTML = '';
+    return;
+  }
+
+  document.querySelectorAll('.zor-kelime.acik').forEach(k => k.classList.remove('acik'));
+  document.querySelectorAll('.anlam-balonu.acik').forEach(b => {
+    b.classList.remove('acik');
+    b.innerHTML = '';
+  });
+
+  hedef.classList.add('acik');
+  balonDiv.innerHTML = `
+    <div class="kelime-baslik">📖 ${kelime}</div>
+    <div class="kelime-anlam">${anlam}</div>
+    <div class="kelime-ornek">🌟 Örnek: ${ornek}</div>
+    <div class="misra-anlam">
+      <strong>💡 Bu mısrada ne anlatılıyor?</strong><br>${misraAnlam}
+    </div>
+  `;
+  balonDiv.classList.add('acik');
+
+  balonSesi();
+  balonAnimasyonu(hedef);
+});
+</script>
+
+</body>
+</html>

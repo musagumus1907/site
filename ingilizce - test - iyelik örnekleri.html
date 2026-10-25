@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Whose is it?</title>
+<style>
+:root{--bg:#fff3f8;--card:#fff;--ink:#3b2a4d;--sub:#7a6a8a;--pink:#ff6fa5;--pink2:#e0457f;--hl:#ffe36e;--hk:#5a3b00;--bar:#ffd3e6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a1f3a;--card:#3a2d4d;--ink:#fbeaff;--sub:#c9b5dd;--bar:#54406d}}
+:root[data-theme="dark"]{--bg:#2a1f3a;--card:#3a2d4d;--ink:#fbeaff;--sub:#c9b5dd;--bar:#54406d}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Nunito","Comic Sans MS","Trebuchet MS",sans-serif;display:flex;justify-content:center}
+main{width:100%;max-width:640px;padding:12px;display:flex;flex-direction:column;gap:10px}
+h1{font-size:1.2rem;margin:0;text-align:center}
+.bar{height:12px;background:var(--bar);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff9ac2,var(--pink2));transition:width .4s}
+.cnt,.hint{text-align:center;color:var(--sub);font-weight:700;font-size:.9rem}
+.card{background:var(--card);border-radius:24px;padding:14px;box-shadow:0 6px 0 var(--bar);display:flex;flex-direction:column;gap:10px}
+svg{width:100%;height:auto;max-height:260px;border-radius:16px;display:block}
+.q{font-size:1.5rem;font-weight:800;line-height:1.6}
+.a{border-top:3px dashed var(--bar);padding-top:8px;display:none}
+.a.show{display:block;animation:pop .35s}
+.a .q{color:var(--pink2)}
+.w{display:inline-block;padding:0 4px;border-radius:9px;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;outline:0}
+.w:hover,.w:focus{background:var(--bar)}
+.w.p{background:var(--hl);color:var(--hk)}
+.w.on{animation:fl .5s}
+@keyframes fl{50%{transform:scale(1.2);background:#9be28f;color:#123}}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+button{font:inherit;font-weight:800;border:0;border-radius:999px;padding:11px 20px;cursor:pointer;color:#fff;background:var(--pink);box-shadow:0 5px 0 var(--pink2);font-size:1.05rem}
+button:active{transform:translateY(4px);box-shadow:0 1px 0 var(--pink2)}
+button.alt{background:#7c6cf0;box-shadow:0 5px 0 #5a4bc9}
+button.ok{background:#35b97a;box-shadow:0 5px 0 #218a58}
+#next{flex:1;font-size:1.3rem;padding:14px}
+#prev{background:#b9a9d6;box-shadow:0 5px 0 #8f7fb2}
+</style>
+</head>
+<body>
+<main>
+<h1>🌸 Whose is it? 🌸</h1>
+<div class="bar"><i id="pb"></i></div>
+<div class="cnt" id="cnt"></div>
+<section class="card">
+<svg id="sc" viewBox="0 0 320 150" role="img" aria-label="Scene"></svg>
+<div class="q" id="qe"></div>
+<div class="row"><button class="alt" id="hq">🔊</button><button class="ok" id="show">👀 Answer</button></div>
+<div class="a" id="ans"><div class="q" id="ae"></div><button class="alt" id="ha">🔊</button></div>
+</section>
+<div class="hint">👆 tap = 🇬🇧 · hold = 🇹🇷 · Enter = 🇬🇧 · Shift+Enter = 🇹🇷</div>
+<div class="row"><button id="prev">◀</button><button id="next">Next ▶</button></div>
+</main>
+<script>
+const D=`Is this my blue pencil on the desk?|Yes, this is your blue pencil.
+Is this my book in your hand?|Yes, that is your book.
+Is this my jacket hanging on the wall?|Yes, that is your jacket hanging on the wall.
+Whose cup is this in my hand?|It is the daughter's cup.
+Is this my coffee cup on the counter?|No, that is my coffee cup.
+Are these my keys on the table?|Yes, these are your keys on the table.
+Is this my phone next to you?|No, this is my phone.
+Whose keys are these on the table?|These are the father's keys.
+Is this my hat on the chair?|Yes, this is your hat.
+Is this my spoon on the plate?|Yes, that is your spoon.
+Are these my socks on the floor?|No, these are your socks.
+Whose book is this on the sofa?|It is the father's book.
+Is this my comb next to the mirror?|Yes, this is your comb.
+Is this your bicycle by the door?|Yes, this is my bicycle.
+Is this your glasses on the book?|Yes, this is my glasses.
+Whose shoes are these on the rug?|They are the father's shoes.
+Is that your car in the garage?|No, that is his car.
+Is this your classroom down the hall?|Yes, this is our classroom down the hall.
+Is this your bag under the table?|Yes, this is my bag.
+Whose backpack is this by the door?|It is Tom's backpack.
+Are these your shoes on the rug?|Yes, these are my shoes.
+Is this your pen in the box?|Yes, that is my pen.
+Is this your water bottle on the table?|Yes, this is my water bottle.
+Whose cat is sleeping on the chair?|It is the family's cat.
+Is that your pillow on the bed?|No, that is my pillow.
+Are these your toys in the basket?|Yes, these are my toys.
+Is this his coat on the hanger?|Yes, this is his coat.
+Whose computer is on the table?|It is the teacher's computer.
+Is this his laptop on the desk?|Yes, this is his laptop on the desk.
+Is that his dog barking in the garden?|Yes, that is his dog.
+Is this his wallet on the bench?|Yes, this is his wallet.
+Whose toys are on the floor?|They are the children's toys.
+Is this his workspace on the screen?|Yes, this is his workspace.
+Are these his letters on the table?|No, they are my letters.
+Is this his umbrella behind the door?|Yes, this is his umbrella.
+Whose house is down the street?|It is the neighbors' house.
+Is this his watch on the shelf?|Yes, this is his watch.
+Is that his t-shirt on the chair?|No, that is my t-shirt.
+Are these his slippers by the bed?|Yes, these are his slippers.
+Whose jacket is hanging on the wall?|It is Mary's jacket.
+Is this her dress in the closet?|Yes, this is her dress.
+Is this her house next to the park?|Yes, this is her house.
+Is that her cat sleeping on the chair?|Yes, that is her cat.
+Whose ball is in the garden?|It is the dog's ball.
+Is this her homework on the table?|Yes, this is her homework.
+Is this her document on the coffee table?|No, this is your document.
+Are these her keys in your hand?|Yes, these are her keys.
+Whose cars are in the garage?|They are our parents' cars.
+Is this her ring in the box?|Yes, this is her ring.
+Is this her notebook on the desk?|Yes, this is her notebook.
+Is that her mirror on the wall?|No, that is my mirror.
+Whose letters are on the counter?|They are the manager's letters.
+Are these her drawings on the fridge?|Yes, these are her drawings.
+Is this its water bowl next to the doghouse?|Yes, this is its water bowl.
+Is that its toy in the cage?|Yes, that is its toy.
+Whose hat is this on the chair?|It is mine.
+Is this its collar on the floor?|Yes, this is its collar.
+Is that its tail behind the curtain?|Yes, that is its tail.
+Is this new toy its ball?|No, it is my ball.
+Whose pencil is this on the table?|This is the father's pencil.
+Is this its box in the garage?|Yes, this is its box in the garage.
+Is that its leash on the wall?|Yes, this is its leash.
+Is this its blanket on the sofa?|Yes, this is its blanket.
+Whose computer is this on the table?|It is the teacher's computer.
+Is that its food in the bowl?|Yes, that is its food.`.split("\n").map(l=>l.split("|"));
+
+const TR=Object.fromEntries("is=dır;are=dır;this=bu;that=şu;these=bunlar;those=şunlar;yes=evet;no=hayır;it=o;they=onlar;whose=kimin;the=belirli tanımlık;on=üstünde;in=içinde;by=yanında;next=bitişiğinde;to=yanında;under=altında;behind=arkasında;down=aşağısında;hanging=asılı;sleeping=uyuyan;barking=havlayan;new=yeni;blue=mavi;my=benim;your=senin;his=onun;her=onun;its=onun;our=bizim;mine=benimki;you=sen;pencil=kalem;pen=kalem;desk=sıra;book=kitap;hand=el;jacket=ceket;wall=duvar;cup=kupa;coffee=kahve;counter=tezgah;keys=anahtarlar;table=masa;phone=telefon;hat=şapka;chair=sandalye;spoon=kaşık;plate=tabak;socks=çoraplar;floor=yer;sofa=koltuk;comb=tarak;mirror=ayna;bicycle=bisiklet;door=kapı;glasses=gözlük;shoes=ayakkabılar;rug=halı;car=araba;cars=arabalar;garage=garaj;classroom=sınıf;hall=koridor;bag=çanta;backpack=sırt çantası;box=kutu;water=su;bottle=şişe;cat=kedi;pillow=yastık;bed=yatak;toys=oyuncaklar;toy=oyuncak;basket=sepet;coat=mont;hanger=askı;computer=bilgisayar;laptop=dizüstü bilgisayar;dog=köpek;garden=bahçe;wallet=cüzdan;bench=bank;workspace=çalışma alanı;screen=ekran;letters=mektuplar;umbrella=şemsiye;house=ev;street=sokak;watch=saat;shelf=raf;t-shirt=tişört;slippers=terlikler;dress=elbise;closet=dolap;park=park;ball=top;homework=ödev;document=belge;ring=yüzük;notebook=defter;drawings=resimler;fridge=buzdolabı;bowl=kap;doghouse=köpek kulübesi;cage=kafes;collar=tasma;tail=kuyruk;curtain=perde;leash=tasma ipi;blanket=battaniye;food=yemek;daughter's=kızın;father's=babanın;tom's=Tom'un;family's=ailenin;teacher's=öğretmenin;children's=çocukların;neighbors'=komşuların;mary's=Mary'nin;dog's=köpeğin;parents'=anne babanın;manager's=müdürün".split(";").map(p=>p.split("=")));
+
+// icons: origin = bottom centre, "$" = colour
+const I={
+pencil:`<rect x="-22" y="-8" width="32" height="8" fill="$"/><path d="M10-8l12 4-12 4z" fill="#f3d2a8"/><rect x="-26" y="-8" width="5" height="8" fill="#f77"/>`,
+book:`<rect x="-15" y="-26" width="30" height="26" rx="2" fill="$"/><rect x="-11" y="-21" width="22" height="5" fill="#fffa"/><rect x="-15" y="-4" width="30" height="4" fill="#fff9"/>`,
+jacket:`<rect x="-14" y="-28" width="28" height="28" rx="3" fill="$"/><rect x="-22" y="-26" width="9" height="24" rx="4" fill="$"/><rect x="13" y="-26" width="9" height="24" rx="4" fill="$"/><path d="M0-28v28" stroke="#0005" stroke-width="2"/>`,
+cup:`<path d="M-11-20h22l-3 20h-16z" fill="$"/><path d="M11-16q11 1 0 10" stroke="$" stroke-width="3" fill="none"/><rect x="-11" y="-20" width="22" height="3" fill="#fff8"/>`,
+keys:`<circle cx="-12" cy="-10" r="7" fill="none" stroke="#d9a400" stroke-width="3"/><path d="M-5-10h22m-5 0v6m-6-6v5" stroke="#d9a400" stroke-width="3" fill="none"/>`,
+phone:`<rect x="-9" y="-30" width="18" height="30" rx="4" fill="$"/><rect x="-7" y="-26" width="14" height="20" fill="#bfe9ff"/>`,
+hat:`<ellipse cx="0" cy="-3" rx="22" ry="4" fill="$"/><path d="M-12-3q0-20 12-20t12 20z" fill="$"/><rect x="-12" y="-10" width="24" height="3" fill="#fff9"/>`,
+spoon:`<ellipse cx="-14" cy="-4" rx="9" ry="4" fill="#c9ced6"/><rect x="-6" y="-5" width="26" height="3" rx="1.5" fill="#c9ced6"/>`,
+socks:`<path d="M-20-28h11v20h14v8h-25z" fill="$"/><path d="M4-28h11v20h14v8h-25z" fill="$"/><rect x="-20" y="-28" width="11" height="4" fill="#fff9"/><rect x="4" y="-28" width="11" height="4" fill="#fff9"/>`,
+comb:`<rect x="-20" y="-12" width="40" height="8" rx="2" fill="$"/><path d="M-17-4v7m5-7v7m5-7v7m5-7v7m5-7v7m5-7v7m5-7v7" stroke="$" stroke-width="2.5"/>`,
+bicycle:`<circle cx="-15" cy="-10" r="10" fill="none" stroke="#333" stroke-width="2.5"/><circle cx="15" cy="-10" r="10" fill="none" stroke="#333" stroke-width="2.5"/><path d="M-15-10l8-14h14l8 14M-7-24l8 14M-9-26h-5M7-24l-2-4h6" stroke="$" stroke-width="3" fill="none"/>`,
+glasses:`<circle cx="-11" cy="-10" r="8" fill="#dff4ff" stroke="$" stroke-width="3"/><circle cx="11" cy="-10" r="8" fill="#dff4ff" stroke="$" stroke-width="3"/><path d="M-3-10h6" stroke="$" stroke-width="3"/>`,
+shoes:`<path d="M-24 0v-8q0-8 8-10l8 6h14q10 2 10 12z" fill="$"/><rect x="-24" y="-3" width="40" height="3" fill="#fff9"/>`,
+car:`<rect x="-26" y="-16" width="52" height="11" rx="4" fill="$"/><path d="M-14-16l7-11h16l9 11z" fill="$"/><path d="M-9-17l5-8h8l5 8z" fill="#bfe9ff"/><circle cx="-14" cy="-4" r="6" fill="#333"/><circle cx="14" cy="-4" r="6" fill="#333"/>`,
+bag:`<rect x="-15" y="-24" width="30" height="24" rx="5" fill="$"/><path d="M-7-24q0-9 7-9t7 9" stroke="$" stroke-width="3" fill="none"/><rect x="-15" y="-14" width="30" height="3" fill="#0003"/>`,
+backpack:`<rect x="-14" y="-32" width="28" height="32" rx="9" fill="$"/><rect x="-9" y="-16" width="18" height="12" rx="3" fill="#0003"/><path d="M-6-32q0-6 6-6t6 6" stroke="#0004" stroke-width="2" fill="none"/>`,
+bottle:`<rect x="-8" y="-28" width="16" height="28" rx="5" fill="#8fd3ff"/><rect x="-5" y="-34" width="10" height="7" rx="2" fill="$"/><rect x="-8" y="-16" width="16" height="6" fill="#fff9"/>`,
+cat:`<ellipse cx="0" cy="-10" rx="16" ry="10" fill="$"/><circle cx="-14" cy="-20" r="9" fill="$"/><path d="M-21-26l3-9 5 7zM-9-27l5-8 2 9z" fill="$"/><circle cx="-17" cy="-21" r="1.5"/><circle cx="-11" cy="-21" r="1.5"/><path d="M14-8q12-2 8-16" stroke="$" stroke-width="4" fill="none"/>`,
+pillow:`<rect x="-22" y="-16" width="44" height="16" rx="8" fill="$"/><path d="M-14-8h28" stroke="#fff8" stroke-width="2"/>`,
+toys:`<rect x="-20" y="-14" width="14" height="14" fill="$"/><rect x="-4" y="-14" width="14" height="14" fill="#ffd23f"/><circle cx="16" cy="-7" r="7" fill="#ff6f6f"/><rect x="-14" y="-26" width="14" height="12" fill="#5bc0ff"/>`,
+toy:`<circle cx="0" cy="-10" r="10" fill="$"/><circle cx="0" cy="-26" r="8" fill="$"/><circle cx="-7" cy="-33" r="3.5" fill="$"/><circle cx="7" cy="-33" r="3.5" fill="$"/><circle cx="-3" cy="-27" r="1.2"/><circle cx="3" cy="-27" r="1.2"/>`,
+computer:`<rect x="-22" y="-30" width="44" height="26" rx="3" fill="#445"/><rect x="-19" y="-27" width="38" height="20" fill="#aee"/><rect x="-5" y="-4" width="10" height="4" fill="#445"/><rect x="-12" y="-2" width="24" height="2" fill="#445"/>`,
+laptop:`<rect x="-18" y="-24" width="36" height="22" rx="2" fill="#445"/><rect x="-15" y="-21" width="30" height="16" fill="#aee"/><path d="M-26 0h52l-5-3h-42z" fill="#99a"/>`,
+dog:`<ellipse cx="2" cy="-14" rx="17" ry="9" fill="$"/><circle cx="-16" cy="-24" r="9" fill="$"/><ellipse cx="-24" cy="-26" rx="4" ry="8" fill="#0003"/><circle cx="-19" cy="-25" r="1.5"/><rect x="-12" y="-8" width="5" height="8" fill="$"/><rect x="10" y="-8" width="5" height="8" fill="$"/><path d="M18-18l8-8" stroke="$" stroke-width="4"/>`,
+wallet:`<rect x="-17" y="-20" width="34" height="20" rx="4" fill="$"/><rect x="5" y="-14" width="12" height="8" rx="2" fill="#fff6"/>`,
+letters:`<rect x="-20" y="-18" width="26" height="18" fill="#fff" stroke="#999"/><path d="M-20-18l13 10 13-10" stroke="#999" fill="none"/><rect x="-6" y="-28" width="26" height="18" fill="#fff" stroke="#999"/><path d="M-6-28l13 10 13-10" stroke="$" fill="none"/>`,
+umbrella:`<path d="M-24-14q0-18 24-18t24 18z" fill="$"/><path d="M0-14v14q0 4-5 4" stroke="#555" stroke-width="2.5" fill="none"/>`,
+house:`<rect x="-20" y="-20" width="40" height="20" fill="$"/><path d="M-24-20l24-14 24 14z" fill="#c55"/><rect x="-5" y="-12" width="10" height="12" fill="#fff8"/>`,
+watch:`<rect x="-6" y="-34" width="12" height="34" rx="3" fill="#555"/><circle cx="0" cy="-17" r="11" fill="#fff" stroke="$" stroke-width="4"/><path d="M0-17v-6M0-17l5 3" stroke="#333" stroke-width="2"/>`,
+"t-shirt":`<path d="M-12-28l-12 7 4 8 6-3v19h28v-19l6 3 4-8-12-7q-6 5-12 0z" fill="$"/>`,
+slippers:`<path d="M-24 0v-6q0-8 12-8h10q10 0 10 8v6z" fill="$"/><rect x="-24" y="-4" width="32" height="4" fill="#fff9"/>`,
+dress:`<path d="M-6-30h12l3 10 10 20h-38l10-20z" fill="$"/><path d="M-9-20h18" stroke="#fff9" stroke-width="2"/>`,
+ball:`<circle cx="0" cy="-12" r="12" fill="$"/><path d="M-12-12q12 6 24 0M0-24q-6 12 0 24" stroke="#fff9" stroke-width="2" fill="none"/>`,
+homework:`<rect x="-17" y="-26" width="34" height="26" fill="#fff" stroke="#bbb"/><path d="M-12-19h24M-12-13h24M-12-7h16" stroke="$" stroke-width="2"/>`,
+document:`<rect x="-14" y="-30" width="28" height="30" fill="#fff" stroke="#bbb"/><path d="M-9-24h18M-9-18h18M-9-12h12" stroke="#999"/><circle cx="8" cy="-6" r="4" fill="$"/>`,
+ring:`<circle cx="0" cy="-8" r="8" fill="none" stroke="#e8b900" stroke-width="3.5"/><path d="M-4-18l4-5 4 5z" fill="$"/>`,
+notebook:`<rect x="-16" y="-28" width="32" height="28" rx="2" fill="$"/><path d="M-10-28v28" stroke="#fff9" stroke-width="2"/><rect x="-4" y="-22" width="14" height="6" fill="#fff9"/>`,
+mirror:`<ellipse cx="0" cy="-20" rx="14" ry="19" fill="#dff4ff" stroke="$" stroke-width="4"/><path d="M-6-26l8-4" stroke="#fff" stroke-width="2"/>`,
+drawings:`<rect x="-20" y="-20" width="20" height="20" fill="#fff" stroke="#bbb"/><path d="M-16-4l6-10 6 10z" fill="$"/><rect x="2" y="-30" width="20" height="20" fill="#fff" stroke="#bbb"/><circle cx="12" cy="-20" r="6" fill="#ffd23f"/>`,
+bowl:`<path d="M-18-14h36q0 14-18 14t-18-14z" fill="$"/><ellipse cx="0" cy="-14" rx="18" ry="3" fill="#0003"/>`,
+collar:`<ellipse cx="0" cy="-8" rx="18" ry="8" fill="none" stroke="$" stroke-width="5"/><circle cx="0" cy="0" r="3.5" fill="#ffd23f"/>`,
+tail:`<path d="M-20-2q14 6 22-10t14-16" stroke="$" stroke-width="7" fill="none" stroke-linecap="round"/>`,
+blanket:`<rect x="-26" y="-14" width="52" height="14" rx="5" fill="$"/><path d="M-26-9h52M-26-4h52" stroke="#fff8" stroke-width="2"/>`,
+box:`<rect x="-20" y="-24" width="40" height="24" fill="#d9a66b"/><rect x="-20" y="-24" width="40" height="6" fill="#c08a4e"/><rect x="-5" y="-24" width="10" height="10" fill="$"/>`,
+classroom:`<rect x="-26" y="-30" width="52" height="30" rx="2" fill="#fff" stroke="#999"/><rect x="-20" y="-25" width="26" height="16" fill="#2f7d5b"/><path d="M-16-18h12" stroke="#fff"/><rect x="10" y="-25" width="12" height="12" fill="$"/>`,
+leash:`<path d="M-8-30q-10 0-10 8t10 8h16v14" stroke="$" stroke-width="4" fill="none"/><circle cx="8" cy="0" r="3" fill="#aaa"/>`};
+I.coat=I.jacket;I.pen=I.pencil;I.cars=I.car;I.workspace=I.computer.replaceAll("#aee","$");
+I.food=I.bowl+`<circle cx="-7" cy="-17" r="3.5" fill="#a5642d"/><circle cx="0" cy="-19" r="3.5" fill="#c47a3c"/><circle cx="7" cy="-17" r="3.5" fill="#a5642d"/>`;
+
+const COL=["#ff6f91","#4d9bff","#ffb020","#35b97a","#9b6bff","#ff7a45"];
+const RP=/\b(on|in|under|behind|by|next to|down)\s+(?:the |my |your |her |his )?([a-z ]+)\?$/i;
+const rc=(x,y,w,h,f,e="")=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}" ${e}/>`;
+const tb=(x,y,w=100)=>rc(x-w/2,y,w,7,"#b9814f",'rx="2"')+rc(x-w/2+6,y+7,7,131-y,"#8f6038")+rc(x+w/2-13,y+7,7,131-y,"#8f6038");
+const tree=x=>rc(x-4,80,8,50,"#8f6038")+`<circle cx="${x}" cy="68" r="24" fill="#58b368"/>`;
+const door=x=>rc(x,52,36,86,"#b9814f",'stroke="#8f6038" stroke-width="2"')+`<circle cx="${x+8}" cy="96" r="3" fill="#ffd23f"/>`;
+const P=(x,c,s,h)=>`<g transform="translate(${x} ${136-134*s}) scale(${s})"><ellipse cx="0" cy="134" rx="24" ry="4" fill="#0002"/>${rc(-16,84,32,40,c,'rx="13"')}${rc(-12,118,9,16,"#6b4a3a",'rx="3"')}${rc(3,118,9,16,"#6b4a3a",'rx="3"')}<circle cy="62" r="21" fill="#ffe0c2"/><path d="M-23 62a23 23 0 0 1 46 0q-11-14-46 0z" fill="${h}"/><circle cx="-8" cy="65" r="2.5" fill="#333"/><circle cx="8" cy="65" r="2.5" fill="#333"/><path d="M-6 72q6 6 12 0" stroke="#c0504d" stroke-width="2" fill="none"/><circle cx="-13" cy="70" r="3.5" fill="#ffb3c1" opacity=".7"/><circle cx="13" cy="70" r="3.5" fill="#ffb3c1" opacity=".7"/></g>`;
+const G=(x,y,s,n,c)=>`<g transform="translate(${x} ${y}) scale(${s})">${I[n].replaceAll("$",c)}</g>`;
+
+function scene(q,a,k){
+ const m=q.match(RP),T=m?m[2].trim().split(" ").pop().toLowerCase():"",pre=m?q.slice(0,m.index):q,P0=m?m[1].toLowerCase():"";
+ let n="box";pre.toLowerCase().replace(/[?'.]/g,"").split(" ").forEach(w=>{if(I[w])n=w});
+ const near=!/\b(that|those)\b/i.test(q),pl=/\b(are|these|those)\b/i.test(q),dm=(q.match(/\b(this|that|these|those)\b/i)||[""])[0].toLowerCase();
+ let x=near?100:215,y=130,s=1,mid="",fg="",hang=0;
+ const out=/^(garden|street|park|doghouse)$/.test(T);
+ if(P0=="under"){y=132;fg=tb(x,86)}
+ else if(P0=="behind"){y=132;fg=T=="door"?door(x+2):`<path d="M${x+2} 30v108h46V30z" fill="#e58aa8"/><path d="M${x+14} 30v108M${x+26} 30v108M${x+38} 30v108" stroke="#c9668a" stroke-width="2"/>`}
+ else if(P0=="down"){x=160;s=.65;if(T=="street"){y=96;mid=`<path d="M135 84h50l110 54H25z" fill="#8a8f99"/><path d="M160 88v48" stroke="#fff" stroke-dasharray="6 5" stroke-width="2"/>`}else{y=112;mid=`<path d="M30 20L130 60h60L290 20v118L190 112h-60L30 138z" fill="#efe2cc"/>`+rc(130,60,60,52,"#d6c3a1")+rc(150,72,20,40,"#b9814f")}}
+ else if(P0=="by"||P0=="next to"){y=132;
+  if(T=="door")mid=door(x+32);
+  else if(T=="bed"){mid=rc(x+24,104,70,20,"#7fc4d9",'rx="4"')+rc(x+88,86,8,44,"#a9622b")+rc(x+26,98,26,9,"#fff",'rx="4"')}
+  else if(T=="mirror"){y=106;mid=tb(x,106,110)+`<ellipse cx="${x+38}" cy="82" rx="12" ry="17" fill="#dff4ff" stroke="#c9972a" stroke-width="4"/>`}
+  else if(T=="park")mid=tree(x+50)+tree(x+84);
+  else if(T=="doghouse")mid=rc(x+30,94,48,40,"#c4783a")+`<path d="M${x+24} 96L${x+54} 70l30 26z" fill="#a14a2a"/><path d="M${x+44} 134v-20q10-12 20 0v20z" fill="#3d2814"/>`;
+  else if(T=="you"){x=236;y=106;mid=tb(x,106,80)}}
+ else{
+  if(/^(table|desk|counter|screen)$/.test(T)){y=106;mid=tb(x,106,T=="counter"?120:100)}
+  else if(T=="chair"){y=112;mid=rc(x-24,112,48,7,"#c47a3c")+rc(x-24,76,7,36,"#a9622b")+rc(x-22,119,6,19,"#a9622b")+rc(x+16,119,6,19,"#a9622b")}
+  else if(T=="sofa"){y=108;mid=rc(x-52,86,104,34,"#9b7bd6",'rx="10"')+rc(x-44,108,88,14,"#b79cf0",'rx="5"')}
+  else if(T=="bed"){y=110;mid=rc(x-54,84,10,46,"#a9622b")+rc(x-54,110,108,16,"#7fc4d9",'rx="4"')}
+  else if(T=="bench"){y=116;mid=rc(x-50,116,100,7,"#8f6038")+rc(x-44,123,6,15,"#6b4a3a")+rc(x+38,123,6,15,"#6b4a3a")}
+  else if(T=="shelf"){y=98;mid=rc(x-50,98,100,6,"#b9814f")+`<path d="M${x-36} 104v12M${x+36} 104v12" stroke="#8f6038" stroke-width="4"/>`}
+  else if(T=="rug")mid=`<ellipse cx="${x}" cy="130" rx="52" ry="8" fill="#e0707a"/>`;
+  else if(T=="plate"){y=101;mid=tb(x,106)+`<ellipse cx="${x}" cy="104" rx="26" ry="4" fill="#fff" stroke="#bbb"/>`}
+  else if(T=="book"){y=98;mid=tb(x,106)+rc(x-26,98,52,8,"#5b8def")}
+  else if(T=="hand"){const sx=/your/i.test(m[0])?284:36;x=sx==36?84:236;y=96;mid=`<path d="M${sx} 98L${x} ${y+2}" stroke="#ffe0c2" stroke-width="8" stroke-linecap="round"/>`;fg=`<circle cx="${x}" cy="${y}" r="6" fill="#ffe0c2"/>`}
+  else if(/^(wall|hanger)$/.test(T)){hang=1;y=100;mid=`<circle cx="${x}" cy="44" r="3" fill="#777"/><path d="M${x} 44V${y-34}" stroke="#777" stroke-width="2"/>`}
+  else if(T=="fridge"){y=100;mid=rc(x-32,38,64,100,"#e9eef5",'rx="5" stroke="#aab"')}
+  else if(T=="box"||T=="basket"){y=118;fg=rc(x-26,108,52,26,T=="box"?"#c9a66b":"#e2b45f",'rx="4"')+(T=="basket"?`<path d="M${x-26} 118h52M${x-26} 126h52" stroke="#0003"/>`:"")}
+  else if(T=="cage"){y=128;fg=`<g stroke="#8a8f99" stroke-width="2" fill="none"><rect x="${x-30}" y="84" width="60" height="46" rx="6"/>${[1,2,3,4,5,6,7].map(i=>`<path d="M${x-30+i*7.5} 84v46"/>`).join("")}</g>`}
+  else if(T=="garage"){y=134;mid=rc(x-56,50,112,88,"#d8dee8")+`<path d="M${x-62} 52L${x} 30l62 22z" fill="#a85a4a"/>`+rc(x-40,74,80,64,"#9aa5b5")+`<path d="M${x-40} 84h80M${x-40} 94h80M${x-40} 104h80M${x-40} 114h80M${x-40} 124h80" stroke="#fff6"/>`}
+  else if(T=="closet"){y=108;mid=rc(x-34,44,68,94,"#a9622b",'rx="3"')+rc(x-29,49,58,84,"#3d2814")+`<path d="M${x-29} 62H${x+29}" stroke="#ddd" stroke-width="3"/>`}
+  else if(T=="garden"){mid=tree(x+50)+`<circle cx="${x-34}" cy="132" r="3" fill="#ff6fa5"/><circle cx="${x+30}" cy="134" r="3" fill="#ffd23f"/>`}
+ }
+ if(n=="cars"||n=="car")s=Math.min(s,.8);
+ const dx=pl?(n=="cars"?38:30):0,xs=pl?[x-dx/2,x+dx/2]:[x],top=y-34*s-8;
+ const objs=xs.map((xx,j)=>G(xx,y,s,n,COL[(k+j*2)%6])).join("");
+ const bg=out?rc(0,0,320,150,"#cfeeff")+rc(0,124,320,26,"#a6dd8a")+`<circle cx="292" cy="20" r="12" fill="#ffe36e"/>`:rc(0,0,320,150,"#fff4de")+rc(0,124,320,26,"#e8c79b");
+ // owner
+ const nm=a.match(/\b[A-Za-z]+(?:'s|s')(?!\w)/),ow=(nm||a.match(/\b(my|your|his|her|its|our|mine)\b/i))[0],lw=ow.toLowerCase(),base=lw.replace(/'s?$/,"");
+ let C="",L=[[160,58]];
+ if(/^(my|mine)$/.test(lw))L=[[284,28]];
+ else if(lw=="your")L=[[36,28]];
+ else if(lw=="our")L=[[36,28],[284,28]];
+ else if(lw=="its"||/^(dog|cat)$/.test(base)){const c=base=="cat";L=[[160,66]];C=`<g transform="translate(160 132) scale(1.5)">${I[c?"cat":"dog"].replaceAll("$",c?"#f2a65a":"#b07a4a")}</g>`}
+ else if(/^(family|children|neighbors|parents)$/.test(base))C=P(146,"#ffb347",.66,"#3b2a1a")+P(174,"#c08cff",.66,"#8a4b2a");
+ else{const f=/^(her|daughter|mary)$/.test(base);C=P(160,f?"#c08cff":"#ffb347",.72,f?"#8a4b2a":"#3b2a1a")}
+ const tag=ow.replace(/'/g,"’"),hx=xs.reduce((p,c)=>p+c,0)/xs.length;
+ const H=L.map(([ox,hy])=>`<path d="M${ox} ${hy+9}Q${(ox+hx)/2} ${hy-8} ${hx} ${top}" fill="none" stroke="#ff4d7d" stroke-width="2" stroke-dasharray="4 3"/><g transform="translate(${ox} ${hy})"><path d="M0 7c-9-6-9-13-4-13 3 0 4 3 4 3s1-3 4-3c5 0 5 7-4 13z" fill="#ff4d7d"/><text y="-9" text-anchor="middle" font-size="11" font-weight="800" fill="#b3224f">${tag}</text></g>`).join("");
+ return bg+C+mid+objs+fg+P(36,"#ff8fb8",1,"#6b3f2a")+P(284,"#6fd3c4",1,"#3b2a1a")+H+`<text x="${hx}" y="148" text-anchor="middle" font-size="11" font-weight="800" fill="#7a1b4a">${dm}</text>`;
+}
+
+// ---------- UI ----------
+const $=id=>document.getElementById(id),PW=/^(?:my|your|his|her|its|our|mine|[a-z]+'s|[a-z]+s')$/;
+const W=t=>t.split(" ").map(w=>{const k=w.toLowerCase().replace(/[?.,!]+$/,"");return `<span class="w${PW.test(k)?" p":""}" tabindex="0" data-k="${k}">${w.replace(/'/g,"’")}</span>`}).join(" ");
+let i=0;
+function say(t,l){if(!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=l=="en-US"?.85:.9;const p=l.slice(0,2),vs=speechSynthesis.getVoices().filter(v=>v.lang.toLowerCase().startsWith(p)),v=vs.find(v=>v.lang.replace("_","-")==l)||vs[0];if(v)u.voice=v;speechSynthesis.speak(u)}
+const flash=w=>{w.classList.remove("on");void w.offsetWidth;w.classList.add("on")};
+const en=w=>{flash(w);say(w.dataset.k,"en-US")},tr=w=>{flash(w);say(TR[w.dataset.k]||w.dataset.k,"tr-TR")};
+const wk=e=>e.target.closest&&e.target.closest(".w");
+let tm=0,lp=false;
+document.addEventListener("pointerdown",e=>{const w=wk(e);if(!w)return;lp=false;clearTimeout(tm);tm=setTimeout(()=>{lp=true;tr(w)},200)});
+document.addEventListener("pointerup",e=>{const w=wk(e);clearTimeout(tm);if(w&&!lp)en(w)});
+document.addEventListener("pointercancel",()=>clearTimeout(tm));
+document.addEventListener("contextmenu",e=>{if(wk(e))e.preventDefault()});
+document.addEventListener("mouseover",e=>{const w=wk(e);if(w&&document.activeElement!==w)w.focus({preventScroll:true})});
+document.addEventListener("keydown",e=>{const w=document.activeElement;if(e.key=="Enter"&&w&&w.classList&&w.classList.contains("w")){e.preventDefault();e.shiftKey?tr(w):en(w)}});
+function render(){
+ const [q,a]=D[i];
+ $("qe").innerHTML=W(q);$("ae").innerHTML=W(a);
+ $("ans").classList.remove("show");$("show").style.display="";
+ $("cnt").textContent=`${i+1} / ${D.length}`;$("pb").style.width=((i+1)/D.length*100)+"%";
+ $("next").textContent=i==D.length-1?"🎉 Again":"Next ▶";$("prev").style.visibility=i?"visible":"hidden";
+ $("sc").innerHTML=scene(q,a,i)}
+$("show").onclick=()=>{$("ans").classList.add("show");$("show").style.display="none";say(D[i][1],"en-US")};
+$("hq").onclick=()=>say(D[i][0],"en-US");
+$("ha").onclick=()=>say(D[i][1],"en-US");
+$("next").onclick=()=>{i=(i+1)%D.length;render();say(D[i][0],"en-US")};
+$("prev").onclick=()=>{if(i){i--;render();say(D[i][0],"en-US")}};
+if(window.speechSynthesis)speechSynthesis.getVoices();
+render();
+</script>
+</body>
+</html>

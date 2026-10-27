@@ -105,24 +105,75 @@
   .viewer-bar {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     margin-bottom: 12px;
   }
-  .back-btn {
+
+  /* ==== Geri dön: düğme görünümü yok, çizim olarak gösterilir ==== */
+  .back-art {
+    /* tüm düğme görünümünü sıfırla */
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    margin: 0;
+    font: inherit;
+    /* geniş, kolay dokunulur alan (görünmez) */
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 9px 16px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #24292f;
-    background: #f6f8fa;
-    border: 1px solid #d0d7de;
-    border-radius: 6px;
+    gap: 8px;
+    min-width: 48px;
+    min-height: 48px;
+    padding: 4px 10px 4px 2px;
     cursor: pointer;
-    transition: background 0.15s;
+    color: #0969da;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    flex-shrink: 0;
   }
-  .back-btn:hover { background: #eaeef2; }
+  .back-art svg {
+    width: 54px;
+    height: 54px;
+    pointer-events: none;               /* tıklama her zaman butona gitsin */
+    filter: drop-shadow(0 3px 5px rgba(9,105,218,.35));
+    transition: transform .25s ease, filter .25s ease;
+    animation: back-nudge 2.6s ease-in-out infinite;
+  }
+  .back-art .back-text {
+    pointer-events: none;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: .2px;
+    background: linear-gradient(90deg, #0969da, #54aeff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    transition: transform .25s ease;
+  }
+  .back-art:hover svg,
+  .back-art:focus-visible svg {
+    transform: translateX(-6px) scale(1.08);
+    filter: drop-shadow(0 5px 8px rgba(9,105,218,.5));
+    animation: none;
+  }
+  .back-art:hover .back-text,
+  .back-art:focus-visible .back-text { transform: translateX(-3px); }
+  .back-art:active svg { transform: translateX(-10px) scale(.96); }
+  .back-art:focus { outline: none; }
+  .back-art:focus-visible svg { outline: 3px dashed #0969da; outline-offset: 4px; border-radius: 12px; }
+  @keyframes back-nudge {
+    0%, 70%, 100% { transform: translateX(0); }
+    80% { transform: translateX(-5px); }
+    90% { transform: translateX(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .back-art svg { animation: none; transition: none; }
+  }
+
   .viewer-title {
     color: #57606a;
     font-size: 0.9rem;
@@ -150,7 +201,22 @@
 <!-- İçerik görüntüleyici -->
 <div id="viewer">
   <div class="viewer-bar">
-    <button type="button" class="back-btn" id="backBtn">← Geri Dön</button>
+    <button type="button" class="back-art" id="backBtn" aria-label="Geri Dön">
+      <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="backGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#54aeff"/>
+            <stop offset="1" stop-color="#0969da"/>
+          </linearGradient>
+        </defs>
+        <!-- kıvrık geri dönüş oku -->
+        <path d="M46 18H27a14 14 0 0 0 0 28h13" fill="none" stroke="url(#backGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M35 6L21 18l14 12" fill="none" stroke="url(#backGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- yanda küçük sayfa listesi çizgileri: "listeye dön" ipucu -->
+        <path d="M46 40h8M46 48h8M46 56h8" stroke="#8fc4ff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+      </svg>
+      <span class="back-text">Geri Dön</span>
+    </button>
     <span class="viewer-title" id="viewerTitle"></span>
   </div>
   <iframe id="viewerFrame" class="viewer-frame" title="Dosya içeriği"></iframe>
@@ -256,9 +322,13 @@
     }
   }
 
+  // Geri dön: tarayıcı geçmişine bağlı olmadan HER durumda listeye döner
   backBtn.addEventListener('click', () => {
-    // Geri tuşu gibi davran: history.back() → popstate → closeViewer(true)
-    history.back();
+    closeViewer(true);
+    try {
+      history.replaceState({}, '', window.location.pathname + window.location.search);
+    } catch (_) {}
+    window.scrollTo(0, 0);
   });
 
   window.addEventListener('popstate', (e) => {

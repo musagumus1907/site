@@ -82,7 +82,6 @@
     padding: 10px 14px;
     background: #fff;
   }
-  .node-children .node-btn:hover { background: #eaeef2; }
 
   .file-link {
     display: block;
@@ -109,70 +108,33 @@
     margin-bottom: 12px;
   }
 
-  /* ==== Geri dön: düğme görünümü yok, çizim olarak gösterilir ==== */
-  .back-art {
-    /* tüm düğme görünümünü sıfırla */
-    appearance: none;
-    -webkit-appearance: none;
-    background: none;
-    border: 0;
-    box-shadow: none;
-    margin: 0;
-    font: inherit;
-    /* geniş, kolay dokunulur alan (görünmez) */
+  /* ==== Geri: düğme değil, sol ok + "Geri" yazılı bağlantı ==== */
+  .back-link {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    min-width: 48px;
-    min-height: 48px;
-    padding: 4px 10px 4px 2px;
-    cursor: pointer;
+    gap: 6px;
+    min-height: 44px;
+    padding-right: 10px;
     color: #0969da;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    flex-shrink: 0;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     user-select: none;
     -webkit-user-select: none;
-    flex-shrink: 0;
   }
-  .back-art svg {
-    width: 54px;
-    height: 54px;
-    pointer-events: none;               /* tıklama her zaman butona gitsin */
-    filter: drop-shadow(0 3px 5px rgba(9,105,218,.35));
-    transition: transform .25s ease, filter .25s ease;
-    animation: back-nudge 2.6s ease-in-out infinite;
+  .back-link svg {
+    width: 30px;
+    height: 30px;
+    transition: transform .2s ease;
   }
-  .back-art .back-text {
-    pointer-events: none;
-    font-size: 1.05rem;
-    font-weight: 800;
-    letter-spacing: .2px;
-    background: linear-gradient(90deg, #0969da, #54aeff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    transition: transform .25s ease;
-  }
-  .back-art:hover svg,
-  .back-art:focus-visible svg {
-    transform: translateX(-6px) scale(1.08);
-    filter: drop-shadow(0 5px 8px rgba(9,105,218,.5));
-    animation: none;
-  }
-  .back-art:hover .back-text,
-  .back-art:focus-visible .back-text { transform: translateX(-3px); }
-  .back-art:active svg { transform: translateX(-10px) scale(.96); }
-  .back-art:focus { outline: none; }
-  .back-art:focus-visible svg { outline: 3px dashed #0969da; outline-offset: 4px; border-radius: 12px; }
-  @keyframes back-nudge {
-    0%, 70%, 100% { transform: translateX(0); }
-    80% { transform: translateX(-5px); }
-    90% { transform: translateX(0); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .back-art svg { animation: none; transition: none; }
-  }
+  .back-link:hover svg,
+  .back-link:focus-visible svg { transform: translateX(-4px); }
+  .back-link:active svg { transform: translateX(-8px); }
+  .back-link:focus-visible { outline: 2px dashed #0969da; outline-offset: 2px; border-radius: 6px; }
 
   .viewer-title {
     color: #57606a;
@@ -201,22 +163,12 @@
 <!-- İçerik görüntüleyici -->
 <div id="viewer">
   <div class="viewer-bar">
-    <button type="button" class="back-art" id="backBtn" aria-label="Geri Dön">
-      <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-        <defs>
-          <linearGradient id="backGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#54aeff"/>
-            <stop offset="1" stop-color="#0969da"/>
-          </linearGradient>
-        </defs>
-        <!-- kıvrık geri dönüş oku -->
-        <path d="M46 18H27a14 14 0 0 0 0 28h13" fill="none" stroke="url(#backGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M35 6L21 18l14 12" fill="none" stroke="url(#backGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- yanda küçük sayfa listesi çizgileri: "listeye dön" ipucu -->
-        <path d="M46 40h8M46 48h8M46 56h8" stroke="#8fc4ff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+    <a href="#" class="back-link" id="backLink" aria-label="Geri">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 12H4M11 5l-7 7 7 7"/>
       </svg>
-      <span class="back-text">Geri Dön</span>
-    </button>
+      <span>Geri</span>
+    </a>
     <span class="viewer-title" id="viewerTitle"></span>
   </div>
   <iframe id="viewerFrame" class="viewer-frame" title="Dosya içeriği"></iframe>
@@ -230,7 +182,7 @@
   const viewerEl = document.getElementById('viewer');
   const viewerFrame = document.getElementById('viewerFrame');
   const viewerTitle = document.getElementById('viewerTitle');
-  const backBtn = document.getElementById('backBtn');
+  const backLink = document.getElementById('backLink');
 
   function getRepoInfo() {
     const host = window.location.hostname;
@@ -266,12 +218,9 @@
     }
   }
 
-  // Local test için manuel liste:
-  // files = ["Matematik-Türev.html", "Matematik-İntegral-Kolay.html", "Fizik-Kuvvet.html"];
-
   loadingEl.style.display = 'none';
 
-  files = (files || []).filter(f => f.toLowerCase() !== 'index.html');
+  files = files.filter(f => f.toLowerCase() !== 'index.html');
 
   if (files.length === 0) {
     errorEl.style.display = 'block';
@@ -282,60 +231,61 @@
   }
 
   // Ağaç yapısını kur
-  const root = { name: null, children: new Map(), files: [] };
+  const root = { children: new Map(), files: [] };
 
   files.forEach(fname => {
-    const nameNoExt = fname.replace(/\.html?$/i, '');
-    const parts = nameNoExt.split('-').filter(p => p.length > 0);
+    const parts = fname.replace(/\.html?$/i, '').split('-').filter(p => p.length > 0);
     if (parts.length === 0) return;
 
     let node = root;
     parts.forEach(part => {
       if (!node.children.has(part)) {
-        node.children.set(part, { name: part, children: new Map(), files: [] });
+        node.children.set(part, { children: new Map(), files: [] });
       }
       node = node.children.get(part);
     });
     node.files.push(fname);
   });
 
-  renderChildren(root, treeEl, 0);
+  renderChildren(root, treeEl);
 
   // ==== Görüntüleyici kontrolleri ====
-  function openViewer(fname) {
+  let savedScroll = 0;
+
+  function openViewer(fname, push = true) {
+    if (!viewerEl.classList.contains('active')) savedScroll = window.scrollY;
     viewerFrame.src = safeHref(fname);
     viewerTitle.textContent = fname;
     treeEl.style.display = 'none';
     viewerEl.classList.add('active');
     // URL hash → tarayıcı geri tuşu desteği
-    history.pushState({ file: fname }, '', '#' + encodeURIComponent(fname));
+    if (push) history.pushState({ file: fname }, '', '#' + encodeURIComponent(fname));
     window.scrollTo(0, 0);
   }
 
-  function closeViewer(fromPopstate) {
+  function closeViewer() {
     viewerFrame.src = 'about:blank';
     viewerTitle.textContent = '';
     viewerEl.classList.remove('active');
     treeEl.style.display = '';
-    if (!fromPopstate) {
-      history.pushState({}, '', window.location.pathname + window.location.search);
-    }
+    // Liste, açık düğümleriyle birlikte kaldığı yerde görünür
+    window.scrollTo(0, savedScroll);
   }
 
-  // Geri dön: tarayıcı geçmişine bağlı olmadan HER durumda listeye döner
-  backBtn.addEventListener('click', () => {
-    closeViewer(true);
+  // Geri: tarayıcı geçmişine bağlı olmadan HER durumda listeye döner
+  backLink.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    closeViewer();
     try {
       history.replaceState({}, '', window.location.pathname + window.location.search);
     } catch (_) {}
-    window.scrollTo(0, 0);
   });
 
   window.addEventListener('popstate', (e) => {
     if (e.state && e.state.file) {
-      openViewer(e.state.file);
+      openViewer(e.state.file, false);
     } else {
-      closeViewer(true);
+      closeViewer();
     }
   });
 
@@ -345,13 +295,13 @@
       const fname = decodeURIComponent(window.location.hash.slice(1));
       if (files.includes(fname)) {
         history.replaceState({ file: fname }, '', '#' + encodeURIComponent(fname));
-        openViewer(fname);
+        openViewer(fname, false);
       }
     } catch (_) {}
   }
 
   // ==== Ağaç render ====
-  function renderChildren(parentNode, container, depth) {
+  function renderChildren(parentNode, container) {
     const childNames = [...parentNode.children.keys()].sort((a, b) => a.localeCompare(b, 'tr'));
 
     childNames.forEach(name => {
@@ -365,43 +315,34 @@
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'node-btn' + (directFile ? ' leaf' : '');
-
-      const totalFiles = countFiles(childNode);
+      btn.setAttribute('aria-expanded', 'false');
 
       btn.innerHTML =
         '<span style="display:flex; align-items:center; gap:6px;">' +
           '<span class="arrow" aria-hidden="true">▶</span>' +
           '<span>' + escapeHtml(name) + '</span>' +
-          '<span class="count">(' + totalFiles + ')</span>' +
+          '<span class="count">(' + countFiles(childNode) + ')</span>' +
         '</span>';
 
-      const childrenDiv = document.createElement('div');
-      childrenDiv.className = 'node-children';
-
-      const childrenId = 'children-' + Math.random().toString(36).slice(2, 10);
-      childrenDiv.id = childrenId;
-      btn.setAttribute('aria-controls', childrenId);
+      nodeDiv.appendChild(btn);
 
       if (directFile) {
         // YAPRAK: tıklayınca dosyayı GÖRÜNTÜLEYİCİDE aç
-        btn.setAttribute('aria-expanded', 'false');
-        btn.addEventListener('click', () => {
-          openViewer(directFile);
-        });
+        btn.addEventListener('click', () => openViewer(directFile));
       } else {
         // ARA DÜĞÜM: aç/kapat
-        btn.setAttribute('aria-expanded', 'false');
+        const childrenDiv = document.createElement('div');
+        childrenDiv.className = 'node-children';
+        childrenDiv.id = 'children-' + Math.random().toString(36).slice(2, 10);
+        btn.setAttribute('aria-controls', childrenDiv.id);
+
         btn.addEventListener('click', () => {
           const open = btn.classList.toggle('open');
           childrenDiv.classList.toggle('open');
           btn.setAttribute('aria-expanded', String(open));
         });
-      }
 
-      nodeDiv.appendChild(btn);
-
-      if (!directFile) {
-        renderChildren(childNode, childrenDiv, depth + 1);
+        renderChildren(childNode, childrenDiv);
 
         childNode.files.sort((a, b) => a.localeCompare(b, 'tr'));
         childNode.files.forEach(fname => {
